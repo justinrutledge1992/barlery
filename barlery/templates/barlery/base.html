@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <!-- the following line allows for cache busting in dev environment -->
+    <link rel="stylesheet" href="{% static 'custom.css' %}?v={{ STATIC_VERSION }}">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>feathertree</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    {% block head %}{% endblock head %}
+</head>
+
+<body>
+    <div>
+        {% block body %}{% endblock body %}
+        {% include "barlery/_footer.html" %}
+    </div>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

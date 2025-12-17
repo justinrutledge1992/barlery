@@ -1,0 +1,22 @@
+<header class="site-header">
+  <div class="header-inner">
+    <a href="{% url 'barlery:index' %}" class="logo">Feathertree</a>
+
+    <nav class="nav">
+      <a href="{% url 'barlery:index' %}">Home</a>
+      {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}">Logout</a>
+        {% if user.is_staff %}
+        <a href="{% url 'admin:index' %}">Admin</a>
+        {% endif %}
+      {% else %}
+      <a href="{% url 'barlery:about' %}">About</a>
+      <a href="{% url 'barlery:menu' %}">Menu</a>
+      <a href="{% url 'barlery:calendar' %}">Calendar</a>
+      <a href="{% url 'barlery:venue' %}">Venue Rental</a>
+      <a href="{% url 'barlery:contact' %}">Contact</a>
+      <a href="{% url 'login' %}">Login</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>

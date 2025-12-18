@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django.urls import include, path
 
+admin.site.site_header = "Barlery Administration" # Text for the main header
+admin.site.site_title = "Admin Console"         # Text for the HTML title tag
+admin.site.index_title = "Welcome to the Barlery Admin Console" # Text for the admin index page title
+
 urlpatterns = [
     path("", include("barlery.urls")),
     # 'registration' URLs:

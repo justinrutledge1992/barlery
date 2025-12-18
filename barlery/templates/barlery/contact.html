@@ -9,6 +9,46 @@
 {% include "barlery/_header.html" %}
 
 <main class="container content">
-    <p>Contact Page</p>
+    <h1>Contact Us</h1>
+
+    {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+        <div>
+        <label for="{{ form.name.id_for_label }}">Name</label>
+        {{ form.name }}
+        {{ form.name.errors }}
+        </div>
+
+        <div>
+        <label for="{{ form.email.id_for_label }}">Email</label>
+        {{ form.email }}
+        {{ form.email.errors }}
+        </div>
+
+        <div>
+        <label for="{{ form.subject.id_for_label }}">Subject</label>
+        {{ form.subject }}
+        {{ form.subject.errors }}
+        </div>
+
+        <div>
+        <label for="{{ form.message.id_for_label }}">Message</label>
+        {{ form.message }}
+        {{ form.message.errors }}
+        </div>
+
+        <button type="submit">Send</button>
+    </form>
 </main>
 {% endblock body %}

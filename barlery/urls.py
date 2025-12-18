@@ -13,4 +13,7 @@ urlpatterns = [
     path("contact", views.contact, name="contact"),
     path("menu", views.menu, name="menu"),
     path("venue", views.venue, name="venue"),
+
+    # Accounts:
+    path("successful_logout", views.successful_logout, name="successful_logout"),
 ]

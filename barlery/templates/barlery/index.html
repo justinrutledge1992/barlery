@@ -47,9 +47,6 @@
   <div class="container">
     <div class="section-header">
       <h2>Upcoming Events</h2>
-      <p class="section-subtitle">
-        Live music, open mics, trivia nights, and more. Check out what's happening at Barlery.
-      </p>
     </div>
     
     <div class="grid grid-3">
@@ -59,14 +56,14 @@
         <!-- Fallback if no events -->
         <div class="card">
           <div class="card-body text-center">
-            <h3 class="card-title">Check back soon for upcoming events</h3>
+            <h3 class="card-title">Check back soon for new events.</h3>
           </div>
         </div>
       {% endfor %}
     </div>
     
     <div class="text-center mt-lg">
-      <a href="{% url 'barlery:calendar' %}" class="btn btn-accent">View Full Calendar</a>
+      <a href="{% url 'barlery:calendar' %}" class="btn btn-accent">More Events</a>
     </div>
   </div>
 </section>

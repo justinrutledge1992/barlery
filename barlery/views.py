@@ -73,5 +73,8 @@ def contact(request):
 
     return render(request, "barlery/contact.html", {"form": form})
 
+def privacy(request):
+    return render(request, "barlery/privacy.html")
+
 def successful_logout(request):
     return render(request, "barlery/index.html")

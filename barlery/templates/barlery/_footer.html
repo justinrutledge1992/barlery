@@ -1,5 +1,5 @@
 <footer>
   <div>
-    <p>© {{ now|date:"Y" }} Barlery — Sip. Sound. Soul.</p>
+    <p>© {% now "Y" %} Barlery | <a href="{% url 'barlery:privacy' %}">Privacy Policy</a> | <a href="{% url 'barlery:contact' %}">Contact</a></p>
   </div>
 </footer>

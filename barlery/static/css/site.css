@@ -756,7 +756,7 @@ form > div {
     color: var(--color-text-inverse);
     background-size: cover;
     background-position: center;
-    background-image: url("images/barlery_sign.png");
+    background-image: url("../images/barlery_sign.png");
   }
 
   .hero-with-bg::before {

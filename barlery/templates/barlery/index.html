@@ -1,17 +1,164 @@
 {% extends "barlery/base.html" %}
+{% load static %}
 
 {% block head %}
-<title>Barlery | Sip Sound Soul</title>
-<meta name="description" content="Sip. Sound. Soul.">
+<title>Home | Barlery</title>
+<meta name="description" content="Barlery - Sip. Sound. Soul. Your neighborhood gathering place for great beer, good times, and live entertainment.">
 {% endblock head %}
 
-{% block body %}
-{% include "barlery/_header.html" %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'index.css' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}">
+{% endblock extra_css %}
 
-<main class="container content">
-  <section class="hero">
-    <h1 class="hero-title">Barlery</h1>
-    <p class="hero-subtitle">Sip. Sound. Soul.</p>
-  </section>
-</main>
+{% block body %}
+
+<!-- Hero Section with Background Image -->
+<section class="hero-with-bg section-textured"></section>
+
+<!-- About Section - Text Left, Image Right -->
+<section class="section">
+  <div class="container">
+    <div class="split-section">
+      <div>
+        <h2>A Classic Bar for the Modern Era</h2>
+        <p>
+          Barlery is more than just a bar—it's a community hub where friends gather, 
+          artists perform, and memories are made. Step into our industrial-chic space 
+          with exposed brick walls, vintage music memorabilia, and an atmosphere that 
+          feels both timeless and contemporary.
+        </p>
+        <p>
+          Whether you're here for a cold beer after work, catching live music on the 
+          weekend, or challenging friends to a game of pool, you're home.
+        </p>
+        <p>
+          <a href="{% url 'barlery:about' %}">Learn more about us →</a>
+        </p>
+      </div>
+      <div>
+        <img src="static/images/pool_table.png" alt="Barlery interior" class="split-image">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Events Section - Full Width Burgundy -->
+<section class="section-lg section-burgundy section-textured">
+  <div class="container">
+    <div class="section-header">
+      <h2>Upcoming Events</h2>
+      <p class="section-subtitle">
+        Live music, open mics, trivia nights, and more. Check out what's happening at Barlery.
+      </p>
+    </div>
+    
+    <div class="grid grid-3">
+      {% for event in upcoming_events %}
+        {% include "barlery/_event_card.html" with event=event %}
+      {% empty %}
+        <!-- Fallback if no events -->
+        <div class="card">
+          <div class="card-body text-center">
+            <h3 class="card-title">Check back soon for upcoming events</h3>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    
+    <div class="text-center mt-lg">
+      <a href="{% url 'barlery:calendar' %}" class="btn btn-accent">View Full Calendar</a>
+    </div>
+  </div>
+</section>
+
+<!-- Menu Section - Image Left, Text Right -->
+<section class="section section-light">
+  <div class="container">
+    <div class="split-section-reverse">
+      <div>
+        <h2>What We Serve</h2>
+        <p style="font-size: 1.1rem; line-height: 1.8;">
+          Our carefully curated selection focuses on quality over quantity. We feature 
+          rotating craft beers from local breweries, quality non-alcoholic options, 
+          and our famous made-to-order hot dogs.
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.8;">
+          Whether you're a beer enthusiast looking to try something new or just want 
+          a cold one with friends, we've got something for everyone.
+        </p>
+        <p style="margin-top: var(--space-md);">
+          <a href="{% url 'barlery:menu' %}">See our full menu →</a>
+        </p>
+      </div>
+      <div>
+        <img src="static/images/beer_and_sign.png" 
+             alt="Craft beer selection" 
+             class="split-image">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Venue Rental - Centered with Dark Background -->
+<section class="section-lg section-dark">
+  <div class="container-narrow text-center">
+    <h2>Host Your Event at Barlery</h2>
+    <p style="font-size: 1.2rem; line-height: 1.8; margin-bottom: var(--space-lg);">
+      Looking for a unique venue for your private party, corporate event, or live performance? 
+      Our industrial-chic space with exposed brick and modern amenities is available for rental 
+      with flexible options to fit your needs.
+    </p>
+    <p>
+      <a href="{% url 'barlery:venue' %}" class="btn btn-accent">Venue Rental</a>
+    </p>
+  </div>
+</section>
+
+<!-- Social Media - Centered Light Section -->
+<section class="section section-light">
+  <div class="container-narrow text-center">
+    <h2>Stay Connected</h2>
+    <p style="font-size: 1.1rem; margin-bottom: var(--space-md);">
+      Follow us on social media for event updates & special announcements.
+    </p>
+    <p>
+      <a href="https://www.instagram.com/barlery.chat/">Instagram</a>
+      <a href="https://www.facebook.com/profile.php?id=61583437177852" style="margin-right: var(--space-md);">Facebook</a>
+    </p>
+  </div>
+</section>
+
+<!-- Location Section - Text Left, Map/Info Right -->
+<section class="section">
+  <div class="container">
+    <div class="split-section">
+      <div>
+        <h2>Find Us in Downtown Chattanooga</h2>
+        <p style="font-size: 1.1rem; line-height: 1.8; margin-top: var(--space-md);">
+          <strong>Address:</strong><br>
+          516 E Main St<br>
+          Chattanooga, TN 37402
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.8; margin-top: var(--space-md);">
+          <strong>Hours:</strong><br>
+          Monday - Thursday: 4PM - 12AM<br>
+          Friday: 4PM - 1AM<br>
+          Saturday: 1PM - 1AM<br>
+          Sunday: 1PM - 10PM
+        </p>
+        <p style="margin-top: var(--space-lg);">
+          <a href="{% url 'barlery:contact' %}">Get in touch →</a> | 
+          <a href="#" style="margin-left: var(--space-sm);">Get directions →</a>
+        </p>
+      </div>
+      <div>
+        <div style="background: var(--color-light); height: 400px; border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; color: var(--color-text-light);">
+          <!-- Map placeholder - you can embed Google Maps here -->
+          <p>Map Coming Soon</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 {% endblock body %}

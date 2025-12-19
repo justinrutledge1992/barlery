@@ -6,15 +6,14 @@
 {% endblock head %}
 
 {% block body %}
-{% include "barlery/_header.html" %}
 
-<main class="container content">
+<main>
     <h1>Contact Us</h1>
 
     {% if messages %}
-        <ul class="messages">
+        <ul>
         {% for message in messages %}
-            <li class="{{ message.tags }}">{{ message }}</li>
+            <li>{{ message }}</li>
         {% endfor %}
         </ul>
     {% endif %}

@@ -3,11 +3,18 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.utils import timezone
 
 from .forms import ContactForm, EventRequestForm
+from .models import Event
 
 def index(request):
-    return render(request, "barlery/index.html")
+    # Get upcoming events (you'll need to adjust based on your Event model)
+    upcoming_events = Event.objects.filter(date__gte=timezone.now()).order_by('date')[:3]
+    
+    return render(request, 'barlery/index.html', {
+        'upcoming_events': upcoming_events
+    })
 
 def about(request):
     return render(request, "barlery/about.html")

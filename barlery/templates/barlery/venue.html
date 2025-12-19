@@ -1,14 +1,18 @@
 {% extends "barlery/base.html" %}
+{% load static %}
 
 {% block head %}
 <title>Venue Rental | Barlery</title>
 <meta name="description" content="Sip. Sound. Soul.">
 {% endblock head %}
 
-{% block body %}
-{% include "barlery/_header.html" %}
+{% block extra_scripts %}
+    <script src="{% static 'time_choice.js' %}" defer></script>
+{% endblock extra_scripts %}
 
-<main class="container content">
+{% block body %}
+
+<main>
     <h1>Venue Rental Request</h1>
 
     <p>
@@ -18,9 +22,9 @@
     </p>
 
     {% if messages %}
-        <ul class="messages">
+        <ul>
         {% for message in messages %}
-            <li class="{{ message.tags }}">{{ message }}</li>
+            <li>{{ message }}</li>
         {% endfor %}
         </ul>
     {% endif %}
@@ -70,15 +74,15 @@
         <legend>Event Details</legend>
 
         <div>
-            <label for="{{ form.organization.id_for_label }}">Organization</label>
-            {{ form.organization }}
-            {{ form.organization.errors }}
-        </div>
-
-        <div>
             <label for="{{ form.nature.id_for_label }}">Nature of event</label>
             {{ form.nature }}
             {{ form.nature.errors }}
+        </div>
+
+        <div>
+            <label for="{{ form.organization.id_for_label }}">Organization</label>
+            {{ form.organization }}
+            {{ form.organization.errors }}
         </div>
 
         <div>

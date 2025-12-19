@@ -1,0 +1,87 @@
+{% comment %}
+Reusable Menu Item Component
+
+Usage in template:
+{% include "barlery/_menu_item.html" with item=menu_item_object %}
+
+Expected context variables:
+    - item: MenuItem object with:
+    - name: Item name
+    - description: Item description (optional)
+    - price: Item price
+    - category: Category (Beer, Non-Alcoholic, Food)
+    - image: Item image (optional)
+{% endcomment %}
+
+<div class="menu-item">
+  <div class="menu-item-header">
+    <h3 class="menu-item-name">{{ item.name }}</h3>
+    <span class="menu-item-price">${{ item.price }}</span>
+  </div>
+  {% if item.description %}
+  <p class="menu-item-description">{{ item.description }}</p>
+  {% endif %}
+  {% if item.category %}
+  <span class="menu-item-category">{{ item.category }}</span>
+  {% endif %}
+</div>
+
+<style>
+/* Menu Item Styles - Add to site.css or include here */
+.menu-item {
+  padding: var(--space-md);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+}
+
+.menu-item:hover {
+  background-color: var(--color-light);
+  padding-left: calc(var(--space-md) + 8px);
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--space-xs);
+  gap: var(--space-sm);
+}
+
+.menu-item-name {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--color-dark);
+  margin: 0;
+  flex-grow: 1;
+}
+
+.menu-item-price {
+  font-weight: 700;
+  color: var(--color-primary);
+  font-size: 1.25rem;
+  white-space: nowrap;
+}
+
+.menu-item-description {
+  color: var(--color-text-light);
+  margin-bottom: var(--space-xs);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.menu-item-category {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: var(--color-accent);
+  color: var(--color-dark);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+</style>

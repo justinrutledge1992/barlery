@@ -2,10 +2,7 @@
 <html lang="en">
 <head>
     {% load static %}
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-    <script src="{% static 'time_choice.js' %}" defer></script>
-    <!-- the following line allows for cache busting in dev environment -->
-    <link rel="stylesheet" href="{% static 'custom.css' %}?v={{ STATIC_VERSION }}">
+    <link rel="stylesheet" href="{% static 'site.css' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}">
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,14 +11,22 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
 
+    {% block extra_css %}{% endblock extra_css %}
     {% block head %}{% endblock head %}
 </head>
 
 <body>
     <div>
-        {% block body %}{% endblock body %}
+        {% include "barlery/_header.html" %}
+
+        <main>
+            {% block body %}{% endblock body %}
+        </main>
+
         {% include "barlery/_footer.html" %}
     </div>
-    {% block extra_scripts %}{% endblock %}
+
+    <script src="{% static 'menu_toggle.js' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}"></script>
+    {% block extra_scripts %}{% endblock extra_scripts %}
 </body>
 </html>

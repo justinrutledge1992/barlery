@@ -1,0 +1,46 @@
+  /* Split section with image */
+  .split-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  .split-section-reverse {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  .split-section-reverse > :first-child {
+    order: 2;
+  }
+
+  .split-section-reverse > :last-child {
+    order: 1;
+  }
+
+  .split-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+  }
+
+  @media (max-width: 768px) {
+    .split-section,
+    .split-section-reverse {
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+    }
+
+    .split-section-reverse > :first-child,
+    .split-section-reverse > :last-child {
+      order: 0;
+    }
+
+    .split-image {
+      height: 300px;
+    }
+  }

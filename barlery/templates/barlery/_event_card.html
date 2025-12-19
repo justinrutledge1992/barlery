@@ -1,0 +1,37 @@
+{% comment %}
+Reusable Event Card Component
+
+Usage in template:
+{% include "barlery/_event_card.html" with event=event_object %}
+
+Expected context variables:
+    - event: Event object with the following attributes:
+    - title: Event name
+    - description: Event description
+    - date: Event date
+    - time: Event time
+    - image: Event image (optional)
+- get_absolute_url: URL to event detail page
+{% endcomment %}
+
+<div class="card">
+    <div class="card-image">
+        {% if event.image %}
+        <img src="{{ event.image.url }}" alt="{{ event.title }}">
+        {% else %}
+        <img src="https://via.placeholder.com/400x250/8B4513/FFFFFF?text={{ event.title|urlencode }}" alt="{{ event.title }}">
+        {% endif %}
+    </div>
+    <div class="card-body">
+        <h3 class="card-title">{{ event.title }}</h3>
+        <p class="card-text">
+        {{ event.description|truncatewords:25 }}
+        </p>
+        <div class="card-footer">
+        <span style="color: var(--color-primary); font-weight: 600;">
+            {{ event.date|date:"l, F j" }} • {{ event.start_time|time:"g:i A" }}
+        </span>
+        <a href="{{ event.get_absolute_url }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Details</a>
+        </div>
+    </div>
+</div>

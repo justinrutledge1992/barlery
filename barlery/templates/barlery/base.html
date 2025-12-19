@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'site.css' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}">
+    <link rel="stylesheet" href="{% static 'css/site.css' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <meta charset="utf-8">
@@ -27,7 +27,7 @@
         {% include "barlery/_footer.html" %}
     </div>
 
-    <script src="{% static 'menu_toggle.js' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}"></script>
+    <script src="{% static 'js/menu_toggle.js' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}"></script>
     {% block extra_scripts %}{% endblock extra_scripts %}
 </body>
 </html>

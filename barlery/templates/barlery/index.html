@@ -7,7 +7,7 @@
 {% endblock head %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'index.css' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}">
+<link rel="stylesheet" href="{% static 'css/index.css' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}">
 {% endblock extra_css %}
 
 {% block body %}
@@ -88,7 +88,7 @@
         </p>
       </div>
       <div>
-        <img src="static/images/beer_and_sign.png" 
+        <img src="{% static 'images/beer_and_sign.png' %}"
              alt="Craft beer selection" 
              class="split-image">
       </div>

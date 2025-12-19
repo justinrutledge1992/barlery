@@ -19,7 +19,8 @@ DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False")
+DEBUG = os.getenv("DEBUG", "False") == "True"
+if DEVELOPMENT_MODE is True: DEBUG = "True"
 
 ALLOWED_HOSTS = []
 
@@ -79,7 +80,7 @@ if DEVELOPMENT_MODE == True:
             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
         }
     }
-elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic' and sys.argv[1] != 'compilescss':
+elif len(sys.argv) <= 1 or sys.argv[1] not in ("collectstatic", "compilescss"):
     if os.getenv("DATABASE_URL", None) is None:
         raise Exception("DATABASE_URL environment variable not defined")
     DATABASES = {

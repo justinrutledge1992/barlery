@@ -22,7 +22,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 DEBUG = os.getenv("DEBUG", "False") == "True"
 if DEVELOPMENT_MODE is True: DEBUG = "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
 
 # Application definition
@@ -73,14 +73,14 @@ WSGI_APPLICATION = 'barlery_project.wsgi.application'
 #  If true, use SQLite 3 bindings
 #  If false, use the production environemnt's DB info
 #  The comparison at the end of the first line is evaluated to convert a string to a boolean
-if DEVELOPMENT_MODE == True:
+if DEVELOPMENT_MODE is True:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
         }
     }
-elif len(sys.argv) <= 1 or sys.argv[1] not in ("collectstatic", "compilescss"):
+elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
     if os.getenv("DATABASE_URL", None) is None:
         raise Exception("DATABASE_URL environment variable not defined")
     DATABASES = {
@@ -119,7 +119,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 # Enforce cache busting on every reload in dev environment:
 # STATIC_VERSION defines this loads version iteration of all static files

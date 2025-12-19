@@ -1,0 +1,92 @@
+<style>
+.hours-table {
+  border-collapse: collapse;
+  margin-top: var(--space-sm);
+}
+
+.hours-table td {
+  padding: 0.35rem 0.75rem;
+  font-size: 1.05rem;
+}
+
+.hours-table td:first-child {
+  font-weight: 600;
+}
+
+.hours-table th {
+  text-align: left;
+}
+</style>
+
+<table class="hours-table">
+  <tr>
+    <td>Monday</td>
+    <td>
+      {% if hours.monday_open and hours.monday_close %}
+        {{ hours.monday_open|time:"g:iA" }}–{{ hours.monday_close|time:"g:iA" }}
+      {% else %}
+        Closed
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>Tuesday</td>
+    <td>
+      {% if hours.tuesday_open and hours.tuesday_close %}
+        {{ hours.tuesday_open|time:"g:iA" }}–{{ hours.tuesday_close|time:"g:iA" }}
+      {% else %}
+        Closed
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>Wednesday</td>
+    <td>
+      {% if hours.wednesday_open and hours.wednesday_close %}
+        {{ hours.wednesday_open|time:"g:iA" }}–{{ hours.wednesday_close|time:"g:iA" }}
+      {% else %}
+        Closed
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>Thursday</td>
+    <td>
+      {% if hours.thursday_open and hours.thursday_close %}
+        {{ hours.thursday_open|time:"g:iA" }}–{{ hours.thursday_close|time:"g:iA" }}
+      {% else %}
+        Closed
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>Friday</td>
+    <td>
+      {% if hours.friday_open and hours.friday_close %}
+        {{ hours.friday_open|time:"g:iA" }}–{{ hours.friday_close|time:"g:iA" }}
+      {% else %}
+        Closed
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>Saturday</td>
+    <td>
+      {% if hours.saturday_open and hours.saturday_close %}
+        {{ hours.saturday_open|time:"g:iA" }}–{{ hours.saturday_close|time:"g:iA" }}
+      {% else %}
+        Closed
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <td>Sunday</td>
+    <td>
+      {% if hours.sunday_open and hours.sunday_close %}
+        {{ hours.sunday_open|time:"g:iA" }}–{{ hours.sunday_close|time:"g:iA" }}
+      {% else %}
+        Closed
+      {% endif %}
+    </td>
+  </tr>
+</table>

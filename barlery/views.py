@@ -6,14 +6,16 @@ from django.core.mail import send_mail
 from django.utils import timezone
 
 from .forms import ContactForm, EventRequestForm
-from .models import Event
+from .models import Event, WeeklyHours
 
 def index(request):
-    # Get upcoming events (you'll need to adjust based on your Event model)
+    # Get upcoming events
     upcoming_events = Event.objects.filter(date__gte=timezone.now()).order_by('date')[:3]
     
+    hours = WeeklyHours.load()
+
     return render(request, 'barlery/index.html', {
-        'upcoming_events': upcoming_events
+        'upcoming_events': upcoming_events, "hours": hours
     })
 
 def about(request):

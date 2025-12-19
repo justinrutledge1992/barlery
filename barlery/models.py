@@ -62,6 +62,48 @@ class User(AbstractBaseUser, PermissionsMixin):
         return f"{self.first_name} {self.last_name} <{self.email}>"
     
 
+# Singleton model for open hours
+class WeeklyHours(models.Model):
+    # Force a single-row table by pinning the PK to 1
+    id = models.PositiveSmallIntegerField(primary_key=True, default=1, editable=False)
+
+    monday_open = models.TimeField(null=True, blank=True)
+    monday_close = models.TimeField(null=True, blank=True)
+    tuesday_open = models.TimeField(null=True, blank=True)
+    tuesday_close = models.TimeField(null=True, blank=True)
+    wednesday_open = models.TimeField(null=True, blank=True)
+    wednesday_close = models.TimeField(null=True, blank=True)
+    thursday_open = models.TimeField(null=True, blank=True)
+    thursday_close = models.TimeField(null=True, blank=True)
+    friday_open = models.TimeField(null=True, blank=True)
+    friday_close = models.TimeField(null=True, blank=True)
+    saturday_open = models.TimeField(null=True, blank=True)
+    saturday_close = models.TimeField(null=True, blank=True)
+    sunday_open = models.TimeField(null=True, blank=True)
+    sunday_close = models.TimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        # Always overwrite the singleton row
+        self.id = 1
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        # Optional: prevent deleting the singleton (keeps table stable)
+        return
+
+    @classmethod
+    def load(cls):
+        # Convenience accessor: always returns “the” WeeklyHours record
+        obj, _ = cls.objects.get_or_create(id=1)
+        return obj
+    
+    from django.db import models
+
+    class Meta:
+        verbose_name_plural = "Weekly hours"
+        # Optional: You can also set the singular name explicitly
+        verbose_name = "Weekly hours"
+
 
 
 class MenuItem(models.Model):

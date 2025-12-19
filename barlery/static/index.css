@@ -1,10 +1,19 @@
  /* Hours Table */
-table {
+.hours-table {
   border-collapse: collapse;
-  width: 50%;
+  margin-top: var(--space-sm);
 }
 
-th {
+.hours-table td {
+  padding: 0.35rem 0.75rem;
+  font-size: 1.05rem;
+}
+
+.hours-table td:first-child {
+  font-weight: 600;
+}
+
+.hours-table th {
   text-align: left;
 }
 

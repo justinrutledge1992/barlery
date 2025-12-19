@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-from .models import User, MenuItem, Event, EventRequest
+from .models import User, MenuItem, Event, EventRequest, WeeklyHours
 
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
@@ -54,3 +54,9 @@ class EventRequestAdmin(admin.ModelAdmin):
     list_filter = ("date_requested", "date")
     search_fields = ("nature", "organization", "first_name", "last_name", "email", "phone", "description")
     readonly_fields = ("date_requested",)
+
+@admin.register(WeeklyHours)
+class WeeklyHoursAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        # Prevent “Add” if it already exists
+        return not WeeklyHours.objects.filter(id=1).exists()

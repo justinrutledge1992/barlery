@@ -846,20 +846,20 @@ form > div {
     display: flex;
   }
   
-header nav {
-  position: fixed;
-  right: -100%;
-  top: 70px;
-  flex-direction: column;
-  background-color: var(--color-dark);
-  width: 100%;
-  text-align: center;
-  transition: right 0.3s ease;
-  box-shadow: 0 10px 27px rgba(0, 0, 0, 0.5);
-  padding: 0;
-  gap: 0;
-  z-index: 999;
-}
+  header nav {
+    position: fixed;
+    right: -100%;
+    top: 70px;
+    flex-direction: column;
+    background-color: var(--color-dark);
+    width: 100%;
+    text-align: center;
+    transition: right 0.3s ease;
+    box-shadow: 0 10px 27px rgba(0, 0, 0, 0.5);
+    padding: 0;
+    gap: 0;
+    z-index: 999;
+  }
 
 header nav.active {
   right: 0;

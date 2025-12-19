@@ -29,9 +29,11 @@ Expected context variables:
         </p>
         <div class="card-footer">
         <span style="color: var(--color-primary); font-weight: 600;">
-            {{ event.date|date:"l, F j" }} • {{ event.start_time|time:"g:i A" }}
+            {{ event.date|date:"l, F j" }} 
+            </br>
+            {{ event.start_time|time:"g:i A" }}
         </span>
-        <a href="{{ event.get_absolute_url }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Details</a>
+        <a href="{{ event.get_absolute_url }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem; color: #F7F3ED">Details</a>
         </div>
     </div>
 </div>

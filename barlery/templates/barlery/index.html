@@ -121,10 +121,14 @@
     <p style="font-size: 1.1rem; margin-bottom: var(--space-md);">
       Follow us on social media for event updates & special announcements.
     </p>
-    <p>
-      <a href="https://www.instagram.com/barlery.chat/">Instagram</a>
-      <a href="https://www.facebook.com/profile.php?id=61583437177852" style="margin-right: var(--space-md);">Facebook</a>
-    </p>
+    <div style="display: flex; gap: var(--space-lg); justify-content: center; font-size: 2.5rem;">
+      <a href="https://www.instagram.com/barlery.chat/" aria-label="Instagram" style="color: var(--color-primary); transition: var(--transition);" onmouseover="this.style.color='var(--color-primary-light)'" onmouseout="this.style.color='var(--color-primary)'">
+        <i class="fab fa-instagram"></i> Instagram
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=61583437177852" aria-label="Facebook" style="color: var(--color-primary); transition: var(--transition);" onmouseover="this.style.color='var(--color-primary-light)'" onmouseout="this.style.color='var(--color-primary)'">
+        <i class="fab fa-facebook"></i> Facebook
+      </a>
+    </div>
   </div>
 </section>
 
@@ -133,7 +137,7 @@
   <div class="container">
     <div class="split-section">
       <div>
-        <h2>Find Us in Downtown Chattanooga</h2>
+        <h2>Visit Us</h2>
         <p style="font-size: 1.1rem; line-height: 1.8; margin-top: var(--space-md);">
           <strong>Address:</strong><br>
           516 E Main St<br>
@@ -141,20 +145,44 @@
         </p>
         <p style="font-size: 1.1rem; line-height: 1.8; margin-top: var(--space-md);">
           <strong>Hours:</strong><br>
-          Monday - Thursday: 4PM - 12AM<br>
-          Friday: 4PM - 1AM<br>
-          Saturday: 1PM - 1AM<br>
-          Sunday: 1PM - 10PM
         </p>
+        <table>
+          <tr>
+            <td>Monday</td>
+            <td>4PM-12AM</td>
+          </tr>
+          <tr>
+            <td>Tuesday</td>
+            <td>4PM-12AM</td>
+          </tr>
+          <tr>
+            <td>Wednesday</td>
+            <td>4PM-12AM</td>
+          </tr>
+          <tr>
+            <td>Thursday</td>
+            <td>4PM-12AM</td>
+          </tr>
+          <tr>
+            <td>Friday</td>
+            <td>4PM-1AM</td>
+          </tr>
+          <tr>
+            <td>Saturday</td>
+            <td>1PM-1AM</td>
+          </tr>
+          <tr>
+            <td>Sunday</td>
+            <td>1PM-10PM</td>
+          </tr>
+        </table>
         <p style="margin-top: var(--space-lg);">
-          <a href="{% url 'barlery:contact' %}">Get in touch →</a> | 
-          <a href="#" style="margin-left: var(--space-sm);">Get directions →</a>
+          <a href="{% url 'barlery:contact' %}">Contact Us</a>
         </p>
       </div>
       <div>
         <div style="background: var(--color-light); height: 400px; border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; color: var(--color-text-light);">
-          <!-- Map placeholder - you can embed Google Maps here -->
-          <p>Map Coming Soon</p>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26133.822406520925!2d-85.32280579374023!3d35.03853892733894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88605d015066d753%3A0xd4ad6fef83a21f05!2sBarlery!5e0!3m2!1sen!2sus!4v1766113434876!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
     </div>

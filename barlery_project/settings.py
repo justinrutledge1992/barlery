@@ -19,7 +19,7 @@ DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", True)
+DEBUG = os.getenv("DEBUG", "False")
 
 ALLOWED_HOSTS = []
 
@@ -159,7 +159,7 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic': # this prevents the s
     except:
         raise Exception("Email backend configuration not properly defined.")
 
-CONTACT_RECIPIENT_EMAIL = "contact@barlery.com" # Change this an email address checked by Barlery staff
+CONTACT_RECIPIENT_EMAIL = "info@barlery.com" # Change this an email address checked by Barlery staff
 DEFAULT_FROM_EMAIL = "no-reply@barlery.com"
 
 # Hardcoded redirects after login/logout

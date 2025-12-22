@@ -22,21 +22,20 @@
       <div>
         <h2>A Classic Bar for the Modern Era</h2>
         <p>
-          Barlery is more than just a bar—it's a community hub where friends gather, 
+          Barlery is more than just a bar — it's a community hub where friends gather, 
           artists perform, and memories are made. Step into our industrial-chic space 
           with exposed brick walls, vintage music memorabilia, and an atmosphere that 
           feels both timeless and contemporary.
         </p>
         <p>
-          Whether you're here for a cold beer after work, catching live music on the 
-          weekend, or challenging friends to a game of pool, you're home.
+          Whether you're here for a cold beer after work, catching live music, or challenging friends to a game of pool, you're home.
         </p>
         <p>
           <a href="{% url 'barlery:about' %}">Learn more about us →</a>
         </p>
       </div>
       <div>
-        <img src="{% static 'images/pool_table.png' %}" alt="Barlery interior" class="split-image">
+        <img src="{% static 'images/brick_wall_art.png' %}" alt="Barlery interior" class="split-image">
       </div>
     </div>
   </div>
@@ -114,7 +113,7 @@
   <div class="container">
     <div class="split-section">
       <div>
-        <h2>Visit Us</h2>
+        <h2>Find Us</h2>
         <p style="font-size: 1.1rem; line-height: 1.8; margin-top: var(--space-md);">
           <strong>Address:</strong><br>
           516 E Main St<br>
@@ -126,8 +125,8 @@
         {% include "barlery/_hours_table.html" %}
       </div>
       <div>
-        <div style="background: var(--color-light); height: 400px; border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; color: var(--color-text-light);">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26133.822406520925!2d-85.32280579374023!3d35.03853892733894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88605d015066d753%3A0xd4ad6fef83a21f05!2sBarlery!5e0!3m2!1sen!2sus!4v1766113434876!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26133.822406520925!2d-85.32280579374023!3d35.03853892733894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88605d015066d753%3A0xd4ad6fef83a21f05!2sBarlery!5e0!3m2!1sen!2sus!4v1766113434876!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
     </div>
@@ -141,7 +140,7 @@
     <p style="font-size: 1.1rem; margin-bottom: var(--space-md);">
       Follow us on social media for event updates & special announcements.
     </p>
-    <div style="display: flex; gap: var(--space-lg); justify-content: center; font-size: 2.5rem;">
+    <div class="social-links">
       <a href="https://www.instagram.com/barlery.chat/" aria-label="Instagram" style="color: var(--color-primary); transition: var(--transition);" onmouseover="this.style.color='var(--color-primary-light)'" onmouseout="this.style.color='var(--color-primary)'">
         <i class="fab fa-instagram"></i> Instagram
       </a>

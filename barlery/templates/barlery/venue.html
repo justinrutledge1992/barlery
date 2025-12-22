@@ -3,114 +3,238 @@
 
 {% block head %}
 <title>Venue Rental | Barlery</title>
-<meta name="description" content="Sip. Sound. Soul.">
+<meta name="description" content="Host your event at Barlery - the perfect venue for live performances, private parties, and corporate events.">
 {% endblock head %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/venue.css' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}">
+{% endblock extra_css %}
+
 {% block extra_scripts %}
-    <script src="{% static 'js/time_choice.js' %}" defer></script>
+<script src="{% static 'js/time_choice.js' %}" defer></script>
 {% endblock extra_scripts %}
 
 {% block body %}
 
-<main>
-    <h1>Venue Rental Request</h1>
+<!-- Hero Section -->
+<section class="hero-simple">
+  <div class="container">
+    <h1>Venue Rental</h1>
+    <p class="hero-subtitle">Host Your Event at Barlery</p>
+  </div>
+</section>
 
-    <p>
-        Interested in renting the venue at Barlery?
-        Fill out the form below and we’ll get back to you as soon as possible.
-        Public performances and private events are all welcome.
+<!-- Introduction Section -->
+<section class="section">
+  <div class="container-narrow text-center">
+    <p style="font-size: 1.2rem; line-height: 1.8;">
+      Interested in renting the venue at Barlery?
+      Fill out the form below and we'll get back to you as soon as possible.
+      Public performances and private events are all welcome.
     </p>
+  </div>
+</section>
 
+<!-- Form Section -->
+<section class="section section-light">
+  <div class="container-narrow">
+    
     {% if messages %}
-        <ul>
-        {% for message in messages %}
-            <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
+    <div class="messages">
+      {% for message in messages %}
+        <div class="message message-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
     {% endif %}
 
-    <form method="post" novalidate>
-        {% csrf_token %}
+    <form method="post" novalidate class="venue-form">
+      {% csrf_token %}
 
+      {% if form.non_field_errors %}
+      <div class="form-errors">
         {{ form.non_field_errors }}
+      </div>
+      {% endif %}
 
-        <fieldset>
+      <fieldset>
         <legend>Contact Information</legend>
 
-        <div>
-            <label for="{{ form.first_name.id_for_label }}">First name</label>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="{{ form.first_name.id_for_label }}">First name <span class="required">*</span></label>
             {{ form.first_name }}
-            {{ form.first_name.errors }}
-        </div>
+            {% if form.first_name.errors %}
+              <ul class="errorlist">
+                {% for error in form.first_name.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
 
-        <div>
-            <label for="{{ form.last_name.id_for_label }}">Last name</label>
+          <div class="form-group">
+            <label for="{{ form.last_name.id_for_label }}">Last name <span class="required">*</span></label>
             {{ form.last_name }}
-            {{ form.last_name.errors }}
+            {% if form.last_name.errors %}
+              <ul class="errorlist">
+                {% for error in form.last_name.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
         </div>
 
-        <div>
-            <label for="{{ form.email.id_for_label }}">Email</label>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">Email <span class="required">*</span></label>
             {{ form.email }}
-            {{ form.email.errors }}
-        </div>
+            {% if form.email.errors %}
+              <ul class="errorlist">
+                {% for error in form.email.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
 
-        <div>
-            <label for="{{ form.phone.id_for_label }}">Phone</label>
+          <div class="form-group">
+            <label for="{{ form.phone.id_for_label }}">Phone <span class="required">*</span></label>
             {{ form.phone }}
-            {{ form.phone.errors }}
+            {% if form.phone.errors %}
+              <ul class="errorlist">
+                {% for error in form.phone.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
         </div>
 
-        <div>
-            <label for="{{ form.contact_preference.id_for_label }}">
-            Preferred contact method
-            </label>
-            {{ form.contact_preference }}
-            {{ form.contact_preference.errors }}
+        <div class="form-group">
+          <label for="{{ form.contact_preference.id_for_label }}">
+            Preferred contact method <span class="required">*</span>
+          </label>
+          {{ form.contact_preference }}
+          {% if form.contact_preference.errors %}
+            <ul class="errorlist">
+              {% for error in form.contact_preference.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
         </div>
-        </fieldset>
+      </fieldset>
 
-        <fieldset>
+      <fieldset>
         <legend>Event Details</legend>
 
-        <div>
-            <label for="{{ form.nature.id_for_label }}">Nature of event</label>
-            {{ form.nature }}
-            {{ form.nature.errors }}
+        <div class="form-group">
+          <label for="{{ form.nature.id_for_label }}">Nature of event <span class="required">*</span></label>
+          {{ form.nature }}
+          <small class="form-help">e.g., Live Performance, Private Party, Corporate Event</small>
+          {% if form.nature.errors %}
+            <ul class="errorlist">
+              {% for error in form.nature.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
         </div>
 
-        <div>
-            <label for="{{ form.organization.id_for_label }}">Organization</label>
-            {{ form.organization }}
-            {{ form.organization.errors }}
+        <div class="form-group">
+          <label for="{{ form.organization.id_for_label }}">Organization</label>
+          {{ form.organization }}
+          <small class="form-help">Optional - If applicable</small>
+          {% if form.organization.errors %}
+            <ul class="errorlist">
+              {% for error in form.organization.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
         </div>
 
-        <div>
-            <label for="{{ form.date.id_for_label }}">Date</label>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="{{ form.date.id_for_label }}">Date <span class="required">*</span></label>
             {{ form.date }}
-            {{ form.date.errors }}
-        </div>
+            {% if form.date.errors %}
+              <ul class="errorlist">
+                {% for error in form.date.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
 
-        <div>
-            <label for="{{ form.start_time.id_for_label }}">Start time</label>
+          <div class="form-group">
+            <label for="{{ form.start_time.id_for_label }}">Start time <span class="required">*</span></label>
             {{ form.start_time }}
-            {{ form.start_time.errors }}
-        </div>
+            {% if form.start_time.errors %}
+              <ul class="errorlist">
+                {% for error in form.start_time.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
 
-        <div>
-            <label for="{{ form.end_time.id_for_label }}">End time</label>
+          <div class="form-group">
+            <label for="{{ form.end_time.id_for_label }}">End time <span class="required">*</span></label>
             {{ form.end_time }}
-            {{ form.end_time.errors }}
+            {% if form.end_time.errors %}
+              <ul class="errorlist">
+                {% for error in form.end_time.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
         </div>
 
-        <div>
-            <label for="{{ form.description.id_for_label }}">Description</label>
-            {{ form.description }}
-            {{ form.description.errors }}
+        <div class="form-group">
+          <label for="{{ form.description.id_for_label }}">Description <span class="required">*</span></label>
+          {{ form.description }}
+          <small class="form-help">Tell us about your event, expected attendance, special requirements, etc.</small>
+          {% if form.description.errors %}
+            <ul class="errorlist">
+              {% for error in form.description.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
         </div>
-        </fieldset>
+      </fieldset>
 
-        <button type="submit">Submit Event Request</button>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Submit Request</button>
+      </div>
     </form>
-</main>
+  </div>
+</section>
+
+<!-- Info Section -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="venue-info-grid">
+      <div class="info-card">
+        <h3>📅 Flexible Scheduling</h3>
+        <p>We accommodate events throughout the week. Evening and weekend slots are available.</p>
+      </div>
+      
+      <div class="info-card">
+        <h3>🎵 Sound System</h3>
+        <p>Professional audio equipment available for live performances and presentations.</p>
+      </div>
+      
+      <div class="info-card">
+        <h3>🍺 Full Bar</h3>
+        <p>Our full bar can be available for your event with various package options.</p>
+      </div>
+  </div>
+</section>
+
 {% endblock body %}

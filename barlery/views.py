@@ -56,7 +56,7 @@ def contact(request):
             message = form.cleaned_data["message"]
 
             full_subject = f"[Barlery Contact] {subject}"
-            full_message = f"From: {name} <{email}>\n\n{message}"
+            full_message = f"From: {name} <{email}>{message}"
 
             send_mail(
                 subject=full_subject,
@@ -66,12 +66,13 @@ def contact(request):
                 fail_silently=False,
             )
 
-            messages.success(request, "Thanks! We received your message. We’ll be in touch soon.")
+            messages.success(request, "Thanks! We received your message. We'll be in touch soon.")
             return redirect("barlery:contact")
     else:
         form = ContactForm()
 
-    return render(request, "barlery/contact.html", {"form": form})
+    hours = WeeklyHours.load()
+    return render(request, "barlery/contact.html", {"form": form, "hours": hours})
 
 def privacy(request):
     return render(request, "barlery/privacy.html")

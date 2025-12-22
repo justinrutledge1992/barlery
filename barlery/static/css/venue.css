@@ -1,0 +1,190 @@
+/* Hero Section */
+.hero-simple {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  padding: var(--space-xl) var(--space-md);
+  text-align: center;
+}
+
+.hero-simple h1 {
+  color: var(--color-text-inverse);
+  margin-bottom: var(--space-sm);
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  font-style: italic;
+  opacity: 0.95;
+  margin: 0;
+}
+
+/* Messages */
+.messages {
+  margin-bottom: var(--space-lg);
+}
+
+.message {
+  padding: var(--space-md);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--space-sm);
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.message-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 2px solid #c3e6cb;
+}
+
+.message-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 2px solid #f5c6cb;
+}
+
+.message-warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 2px solid #ffeaa7;
+}
+
+.message-info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  border: 2px solid #bee5eb;
+}
+
+/* Form Styling */
+.venue-form {
+  max-width: 100%;
+  background-color: var(--color-white);
+  padding: var(--space-xl);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+}
+
+.form-errors {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: var(--space-md);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--space-lg);
+  border: 2px solid #f5c6cb;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.form-group {
+  margin-bottom: var(--space-md);
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+  color: var(--color-dark);
+}
+
+.required {
+  color: #c41e3a;
+  font-weight: 700;
+}
+
+.form-help {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  margin-top: var(--space-xs);
+  font-style: italic;
+}
+
+/* Form Actions */
+.form-actions {
+  margin-top: var(--space-lg);
+  text-align: center;
+}
+
+.form-actions .btn {
+  min-width: 250px;
+}
+
+/* Venue Info Grid */
+.venue-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-lg);
+}
+
+.info-card {
+  text-align: center;
+  padding: var(--space-lg);
+}
+
+.info-card h3 {
+  color: var(--color-gold);
+  font-size: 1.5rem;
+  margin-bottom: var(--space-md);
+}
+
+.info-card p {
+  color: var(--color-text-inverse);
+  opacity: 0.9;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-simple {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .hero-simple h1 {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .venue-form {
+    padding: var(--space-lg);
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .form-actions .btn {
+    min-width: 100%;
+  }
+
+  .venue-info-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .info-card {
+    padding: var(--space-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-simple h1 {
+    font-size: 1.75rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .venue-form {
+    padding: var(--space-md);
+  }
+}

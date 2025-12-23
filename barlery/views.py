@@ -22,10 +22,30 @@ def about(request):
     return render(request, "barlery/about.html")
 
 def menu(request):
-    return render(request, "barlery/menu.html")
+    from .models import MenuItem
+    # Get menu items grouped by category
+    beer_items = MenuItem.objects.filter(category=MenuItem.CATEGORY_BEER).order_by('name')
+    wine_items = MenuItem.objects.filter(category=MenuItem.CATEGORY_WINE).order_by('name')
+    spirit_items = MenuItem.objects.filter(category=MenuItem.CATEGORY_SPIRIT).order_by('name')
+    food_items = MenuItem.objects.filter(category=MenuItem.CATEGORY_FOOD).order_by('name')
+    non_alcoholic_items = MenuItem.objects.filter(category=MenuItem.CATEGORY_NON_ALCOHOLIC).order_by('name')
+    
+    # Also pass all items for the "no menu" check
+    menu_items = MenuItem.objects.all()
+    
+    return render(request, "barlery/menu.html", {
+        "menu_items": menu_items,
+        "beer_items": beer_items,
+        "wine_items": wine_items,
+        "spirit_items": spirit_items,
+        "food_items": food_items,
+        "non_alcoholic_items": non_alcoholic_items,
+    })
 
 def calendar(request):
-    return render(request, "barlery/calendar.html")
+    # Get all upcoming events, ordered by date and time
+    upcoming_events = Event.objects.filter(date__gte=timezone.now()).order_by('date', 'start_time')
+    return render(request, "barlery/calendar.html", {"upcoming_events": upcoming_events})
 
 def venue(request):
     if request.method == "POST":

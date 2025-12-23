@@ -1,13 +1,76 @@
 {% extends "barlery/base.html" %}
+{% load static %}
 
 {% block head %}
-<title>Events | Barlery</title>
-<meta name="description" content="Sip. Sound. Soul.">
+<title>Events Calendar | Barlery</title>
+<meta name="description" content="Check out our upcoming events - live music, performances, and special nights at Barlery.">
 {% endblock head %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/calendar.css' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}">
+{% endblock extra_css %}
 
 {% block body %}
 
-<main>
-    <p>Events Page</p>
-</main>
+<!-- Hero Section -->
+<section class="hero-simple">
+  <div class="container">
+    <h1>Events Calendar</h1>
+    <p class="hero-subtitle">Live Music, Performances & Special Events</p>
+  </div>
+</section>
+
+<!-- Introduction Section -->
+<section class="section">
+  <div class="container-narrow text-center">
+    <p style="font-size: 1.2rem; line-height: 1.8;">
+      From live music and performances to trivia nights and special gatherings, 
+      there's always something happening at Barlery. Check out what's coming up 
+      and mark your calendar!
+    </p>
+  </div>
+</section>
+
+<!-- Events Grid Section -->
+<section class="section section-light">
+  <div class="container">
+    {% if upcoming_events %}
+      <div class="events-grid">
+        {% for event in upcoming_events %}
+          {% include "barlery/_event_card.html" with event=event %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <!-- No events message -->
+      <div class="no-events">
+        <div class="no-events-content">
+          <div class="no-events-icon">📅</div>
+          <h2>No Upcoming Events</h2>
+          <p>We're working on exciting new events! Check back soon or follow us on social media for announcements.</p>
+          <div class="btn-group" style="margin-top: var(--space-lg);">
+            <a href="https://www.instagram.com/barlery.chat/" class="btn btn-primary">
+              <i class="fab fa-instagram"></i> Follow on Instagram
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61583437177852" class="btn btn-primary">
+              <i class="fab fa-facebook"></i> Follow on Facebook
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section section-burgundy section-textured">
+  <div class="container-narrow text-center">
+    <h2>Want to Host an Event?</h2>
+    <p style="font-size: 1.2rem; line-height: 1.8; margin-bottom: var(--space-lg); opacity: 0.95;">
+      Interested in booking the venue for your own performance or private event? 
+      We'd love to hear from you!
+    </p>
+    <a href="{% url 'barlery:venue' %}" class="btn btn-accent">Request Venue Rental</a>
+  </div>
+</section>
+
 {% endblock body %}

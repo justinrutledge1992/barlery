@@ -107,7 +107,28 @@ class WeeklyHours(models.Model):
 
 
 class MenuItem(models.Model):
+    # Category choices
+    CATEGORY_FOOD = 'food'
+    CATEGORY_BEER = 'beer'
+    CATEGORY_WINE = 'wine'
+    CATEGORY_SPIRIT = 'spirit'
+    CATEGORY_NON_ALCOHOLIC = 'non-alcoholic'
+    
+    CATEGORY_CHOICES = [
+        (CATEGORY_FOOD, 'Food'),
+        (CATEGORY_BEER, 'Beer'),
+        (CATEGORY_WINE, 'Wine'),
+        (CATEGORY_SPIRIT, 'Spirit'),
+        (CATEGORY_NON_ALCOHOLIC, 'Non-Alcoholic'),
+    ]
+    
     name = models.CharField("Product Name", max_length=255)
+    category = models.CharField(
+        "Category",
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        default=CATEGORY_BEER,
+    )
     abv = models.DecimalField("ABV (%)", max_digits=3, decimal_places=1, null=True, blank=True)
     description = models.TextField(blank=True)
     price = models.DecimalField("Price ($)", max_digits=6, decimal_places=2, null=True, blank=True)
@@ -118,7 +139,6 @@ class MenuItem(models.Model):
 
     def __str__(self):
         return self.name
-
 
 class Event(models.Model):
     title = models.CharField(max_length=255)

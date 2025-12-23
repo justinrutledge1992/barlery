@@ -1,13 +1,137 @@
 {% extends "barlery/base.html" %}
+{% load static %}
 
 {% block head %}
 <title>Menu | Barlery</title>
-<meta name="description" content="Sip. Sound. Soul.">
+<meta name="description" content="Browse our selection of craft beers, imports, domestics, and non-alcoholic beverages at Barlery.">
 {% endblock head %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/menu.css' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}">
+{% endblock extra_css %}
 
 {% block body %}
 
-<main>
-    <p>Menu Page</p>
-</main>
+<!-- Hero Section -->
+<section class="hero-simple">
+  <div class="container">
+    <h1>Our Menu</h1>
+    <p class="hero-subtitle">Craft Beers, Classics & More</p>
+  </div>
+</section>
+
+<!-- Introduction Section -->
+<section class="section">
+  <div class="container-narrow text-center">
+    <p style="font-size: 1.2rem; line-height: 1.8;">
+      We feature rotating craft beers from local breweries, classic domestics & imports, 
+      wine, spirits, quality non-alcoholic options, and delicious hot dogs. 
+      Check out what we have available!
+    </p>
+  </div>
+</section>
+
+<!-- Menu Section -->
+<section class="section section-light">
+  <div class="container">
+    {% if menu_items %}
+
+    <!-- Food -->
+      {% if food_items %}
+      <div class="menu-category">
+        <div class="category-header">
+          <h2>🌭 Food</h2>
+          <p class="category-description">Hot dogs & snacks</p>
+        </div>
+        <div class="menu-items-list">
+          {% for item in food_items %}
+            {% include "barlery/_menu_item.html" with item=item %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      
+      <!-- Beers -->
+      {% if beer_items %}
+      <div class="menu-category">
+        <div class="category-header">
+          <h2>🍺 Beers</h2>
+          <p class="category-description">Craft beers, domestics & imports</p>
+        </div>
+        <div class="menu-items-list">
+          {% for item in beer_items %}
+            {% include "barlery/_menu_item.html" with item=item %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Wine -->
+      {% if wine_items %}
+      <div class="menu-category">
+        <div class="category-header">
+          <h2>🍷 Wine</h2>
+          <p class="category-description">Red, white & sparkling wines</p>
+        </div>
+        <div class="menu-items-list">
+          {% for item in wine_items %}
+            {% include "barlery/_menu_item.html" with item=item %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Spirits -->
+      {% if spirit_items %}
+      <div class="menu-category">
+        <div class="category-header">
+          <h2>🥃 Spirits</h2>
+          <p class="category-description">Whiskey, vodka, rum & more</p>
+        </div>
+        <div class="menu-items-list">
+          {% for item in spirit_items %}
+            {% include "barlery/_menu_item.html" with item=item %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Non-Alcoholic Beverages -->
+      {% if non_alcoholic_items %}
+      <div class="menu-category">
+        <div class="category-header">
+          <h2>🥤 Non-Alcoholic Beverages</h2>
+          <p class="category-description">Soft drinks, water, coffee & more</p>
+        </div>
+        <div class="menu-items-list">
+          {% for item in non_alcoholic_items %}
+            {% include "barlery/_menu_item.html" with item=item %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+    {% else %}
+      <!-- No menu items -->
+      <div class="no-menu">
+        <div class="no-menu-icon">📋</div>
+        <h2>Menu Coming Soon</h2>
+        <p>We're updating our menu. Check back soon or ask your server for current offerings!</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Info Section -->
+<section class="section section-dark">
+  <div class="container-narrow text-center">
+    <h2>Questions About Our Menu?</h2>
+    <p style="font-size: 1.2rem; line-height: 1.8; margin-bottom: var(--space-lg);">
+      Our menu changes regularly as we bring in new craft beers and seasonal offerings. 
+      Ask your bartender for current specials and recommendations!
+    </p>
+    <a href="{% url 'barlery:contact' %}" class="btn btn-accent">Contact Us</a>
+  </div>
+</section>
+
 {% endblock body %}

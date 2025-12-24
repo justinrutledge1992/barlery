@@ -99,6 +99,9 @@ def venue(request):
     )
 
 def contact(request):
+    import logging
+    logger = logging.getLogger(__name__)
+    
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -110,16 +113,28 @@ def contact(request):
             full_subject = f"[Barlery Contact] {subject}"
             full_message = f"From: {name} <{email}>{message}"
 
-            send_mail(
-                subject=full_subject,
-                message=full_message,
-                from_email=getattr(settings, "DEFAULT_FROM_EMAIL", None),
-                recipient_list=[settings.CONTACT_RECIPIENT_EMAIL],
-                fail_silently=False,
-            )
-
-            messages.success(request, "Thanks! We received your message. We'll be in touch soon.")
-            return redirect("barlery:contact")
+            try:
+                send_mail(
+                    subject=full_subject,
+                    message=full_message,
+                    from_email=getattr(settings, "DEFAULT_FROM_EMAIL", None),
+                    recipient_list=[settings.CONTACT_RECIPIENT_EMAIL],
+                    fail_silently=False,
+                )
+                
+                messages.success(request, "Thanks! We received your message. We'll be in touch soon.")
+                return redirect("barlery:contact")
+                
+            except Exception as e:
+                # Log the full error for debugging
+                logger.error(f"Failed to send contact email: {str(e)}", exc_info=True)
+                
+                # Show user-friendly error message
+                messages.error(
+                    request, 
+                    "Sorry, there was a problem sending your message. Please try again later or contact us directly at info@barlery.com."
+                )
+                # Don't redirect - stay on page with form data
     else:
         form = ContactForm()
 

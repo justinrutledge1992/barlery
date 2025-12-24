@@ -27,7 +27,7 @@ def send_contact_email(name, email, subject, message):
     email_subject = f"[Barlery Contact] {subject}"
     
     # Format email body with styled headers
-    email_body = f"""New Contact Form Submission
+    email_body = f"""---Contact Form Submission---
 
 CONTACT INFORMATION:
 --------------------
@@ -82,7 +82,7 @@ def send_venue_request_email(event_request):
     )
     
     # Build the email body
-    message = f"""New Venue Rental Request Submitted
+    message = f"""---Venue Rental Request---
 
 CONTACT INFORMATION:
 --------------------

@@ -6,7 +6,8 @@ from django.core.mail import send_mail
 from django.utils import timezone
 
 from .forms import ContactForm, EventRequestForm
-from .models import Event, WeeklyHours
+from .models import Event, WeeklyHours, EventRequest
+from .mailers import send_contact_email, send_venue_request_email
 
 def index(request):
     # Get upcoming events
@@ -83,10 +84,14 @@ def venue(request):
     if request.method == "POST":
         form = EventRequestForm(request.POST)
         if form.is_valid():
-            form.save()
+            event_request = form.save()
+            
+            # Send email notification to staff
+            send_venue_request_email(event_request)
+            
             messages.success(
                 request,
-                "Thanks! Your event request has been submitted. We’ll be in touch soon."
+                "Thanks! Your event request has been submitted. We'll be in touch soon."
             )
             return redirect("barlery:venue")
     else:
@@ -99,9 +104,6 @@ def venue(request):
     )
 
 def contact(request):
-    import logging
-    logger = logging.getLogger(__name__)
-    
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -110,31 +112,17 @@ def contact(request):
             subject = form.cleaned_data["subject"]
             message = form.cleaned_data["message"]
 
-            full_subject = f"[Barlery Contact] {subject}"
-            full_message = f"From: {name} <{email}>{message}"
-
-            try:
-                send_mail(
-                    subject=full_subject,
-                    message=full_message,
-                    from_email=getattr(settings, "DEFAULT_FROM_EMAIL", None),
-                    recipient_list=[settings.CONTACT_RECIPIENT_EMAIL],
-                    fail_silently=False,
-                )
-                
+            # Send email
+            success = send_contact_email(name, email, subject, message)
+            
+            if success:
                 messages.success(request, "Thanks! We received your message. We'll be in touch soon.")
                 return redirect("barlery:contact")
-                
-            except Exception as e:
-                # Log the full error for debugging
-                logger.error(f"Failed to send contact email: {str(e)}", exc_info=True)
-                
-                # Show user-friendly error message
+            else:
                 messages.error(
                     request, 
-                    "Sorry, there was a problem sending your message. Please try again later or contact us directly at info@barlery.com."
+                    "Sorry, there was a problem sending your message. Please try again later or contact us directly."
                 )
-                # Don't redirect - stay on page with form data
     else:
         form = ContactForm()
 

@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.admin.views.decorators import staff_member_required
+from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.contrib.auth import get_user_model
 
@@ -147,7 +148,6 @@ def success(request):
     """
     return render(request, "barlery/success.html")
 
-
 @staff_member_required(login_url='/accounts/login/')
 def account_management(request):
     pending_users = User.objects.filter(
@@ -280,25 +280,30 @@ def activate_user(request, user_id):
 
 
 def custom_login(request):
-    """
-    Custom login view with success message.
-    """
-    if request.method == 'POST':
+    next_url = request.GET.get("next") or request.POST.get("next") or ""
+
+    if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             auth_login(request, user)
-            messages.success(request, f"Welcome back, {user.email}!")
-            
-            # Redirect to 'next' parameter or home
-            next_url = request.GET.get('next') or request.POST.get('next')
+            messages.success(request, f"Welcome back, {user.first_name}!")
+
+            # If they were trying to reach account management, only allow staff
+            mgmt_path = reverse("barlery:account_management")  # e.g. "/accounts/management/"
+            if next_url and next_url.startswith(mgmt_path):
+                return redirect(next_url) if user.is_staff else redirect("barlery:index")
+
+            # Otherwise, honor next if present
             if next_url:
                 return redirect(next_url)
-            return redirect('barlery:index')
+
+            # Default landing
+            return redirect("barlery:account_management") if user.is_staff else redirect("barlery:index")
     else:
         form = AuthenticationForm()
-    
-    return render(request, 'registration/login.html', {'form': form})
+
+    return render(request, "registration/login.html", {"form": form, "next": next_url})
 
 def custom_logout(request):
     """

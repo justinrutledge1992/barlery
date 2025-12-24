@@ -162,7 +162,7 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic': # this prevents the s
         raise Exception("Email backend configuration not properly defined.")
 
 CONTACT_RECIPIENT_EMAIL = "info@barlery.com" # Change this an email address checked by Barlery staff
-DEFAULT_FROM_EMAIL = "no-reply@barlery.com"
+DEFAULT_FROM_EMAIL = "info@barlery.com"
 
 # Hardcoded redirects after login/logout
 LOGIN_REDIRECT_URL = 'barlery:index'

@@ -1,0 +1,19 @@
+{% comment %}
+Alert/Message Banner Partial
+Displays Django messages as a sticky banner below the navbar
+{% endcomment %}
+
+{% if messages %}
+<div class="message-banner-container">
+  {% for message in messages %}
+    <div class="message-banner message-banner-{{ message.tags }}">
+      <div class="container">
+        <span class="message-text">{{ message }}</span>
+        <button class="message-close" onclick="this.parentElement.parentElement.remove()" aria-label="Close message">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}

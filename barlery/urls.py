@@ -14,6 +14,7 @@ urlpatterns = [
     path("menu", views.menu, name="menu"),
     path("venue", views.venue, name="venue"),
     path("privacy", views.privacy, name="privacy"),
+    path("success", views.success, name="success"),
 
     # Accounts:
     path("successful_logout", views.successful_logout, name="successful_logout"),

@@ -18,7 +18,10 @@
 
 <body>
     <div>
-        {% include "barlery/_header.html" %}
+        <div class="sticky-top-container">
+            {% include "barlery/_header.html" %}
+            {% include "barlery/_alerts.html" %}
+        </div>
 
         <main>
             {% block body %}{% endblock body %}

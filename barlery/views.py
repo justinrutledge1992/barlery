@@ -93,7 +93,7 @@ def venue(request):
                 request,
                 "Thanks! Your event request has been submitted. We'll be in touch soon."
             )
-            return redirect("barlery:venue")
+            return redirect("/success?type=venue")
     else:
         form = EventRequestForm()
 
@@ -117,7 +117,7 @@ def contact(request):
             
             if success:
                 messages.success(request, "Thanks! We received your message. We'll be in touch soon.")
-                return redirect("barlery:contact")
+                return redirect("/success?type=contact")
             else:
                 messages.error(
                     request, 
@@ -131,6 +131,14 @@ def contact(request):
 
 def privacy(request):
     return render(request, "barlery/privacy.html")
+
+
+def success(request):
+    """
+    Success page shown after form submissions.
+    Accepts 'type' query parameter to customize message (contact, venue, etc.)
+    """
+    return render(request, "barlery/success.html")
 
 def successful_logout(request):
     return render(request, "barlery/index.html")

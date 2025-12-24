@@ -128,14 +128,23 @@ a:hover {
 strong { font-weight: 600; }
 
 /* ============================================
+   Sticky Top Container (Header + Alerts)
+   ============================================ */
+.sticky-top-container {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+/* ============================================
    Header & Navigation
    ============================================ */
 header {
   background-color: var(--color-dark);
   border-bottom: 3px solid var(--color-burgundy);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  position: relative; /* Changed from sticky */
+  z-index: 1001; /* Higher than alerts */
   box-shadow: var(--shadow-md);
 }
 
@@ -643,6 +652,97 @@ footer p {
 .section-primary .section-subtitle,
 .section-burgundy .section-subtitle {
   color: rgba(255, 255, 255, 0.95);
+}
+
+/* ============================================
+   Message Banner (Sticky)
+   ============================================ */
+.message-banner-container {
+  position: relative; /* Relative within sticky container */
+  z-index: 900; /* Below header but above content */
+  width: 100%;
+}
+
+.message-banner {
+  width: 100%;
+  padding: var(--space-sm) 0;
+  animation: slideDown 0.3s ease-out;
+}
+
+.message-banner .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+}
+
+.message-text {
+  flex-grow: 1;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.message-close {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: var(--space-xs);
+  opacity: 0.8;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.message-close:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Message Types */
+.message-banner-success {
+  background-color: #d4edda;
+  color: #155724;
+  border-bottom: 3px solid #c3e6cb;
+}
+
+.message-banner-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border-bottom: 3px solid #f5c6cb;
+}
+
+.message-banner-warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border-bottom: 3px solid #ffeaa7;
+}
+
+.message-banner-info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  border-bottom: 3px solid #bee5eb;
+}
+
+/* Animation */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .message-text {
+    font-size: 1rem;
+  }
 }
 
 /* ============================================

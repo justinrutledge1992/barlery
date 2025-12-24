@@ -70,16 +70,6 @@
       
       <!-- Contact Form -->
       <div class="contact-form-container">
-        
-        {% if messages %}
-        <div class="messages">
-          {% for message in messages %}
-            <div class="message message-{{ message.tags }}">
-              {{ message }}
-            </div>
-          {% endfor %}
-        </div>
-        {% endif %}
 
         <form method="post" novalidate class="contact-form">
           {% csrf_token %}

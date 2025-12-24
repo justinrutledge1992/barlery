@@ -1,0 +1,588 @@
+/* Hero Section */
+.hero-simple {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  padding: var(--space-xl) var(--space-md);
+  text-align: center;
+}
+
+.hero-simple h1 {
+  color: var(--color-text-inverse);
+  margin-bottom: var(--space-sm);
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  font-style: italic;
+  opacity: 0.95;
+  margin: 0;
+}
+
+/* Stats Summary */
+.stats-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.stat-card {
+  background-color: var(--color-white);
+  padding: var(--space-lg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.stat-card i {
+  font-size: 2.5rem;
+  color: var(--color-primary);
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  margin-top: var(--space-xs);
+}
+
+
+/* Pending Activations Section */
+
+.pending-section-header {
+  margin-bottom: var(--space-lg);
+}
+
+.pending-section-header h2 {
+  color: var(--color-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.pending-section-header p {
+  color: var(--color-text-light);
+  font-size: 1.1rem;
+}
+
+/* Pending Users List */
+.pending-users-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Pending User Card */
+.pending-user-card {
+  background-color: var(--color-white);
+  padding: var(--space-md);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  border-left: 4px solid #ffc107;
+}
+
+.pending-user-card:hover {
+  transform: translateX(8px);
+  box-shadow: var(--shadow-lg);
+  background-color: #fffef8;
+}
+
+/* Pending User Header */
+.pending-user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--color-light);
+}
+
+.pending-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+/* Pending User Body */
+.pending-user-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+/* Pending User Actions */
+.pending-user-actions {
+  padding-top: var(--space-sm);
+  border-top: 2px solid var(--color-light);
+}
+
+.pending-user-actions .btn {
+  margin: 0;
+}
+
+
+/* Pending Activations Section */
+.pending-activations-section {
+  margin-bottom: var(--space-2xl);
+  padding-bottom: var(--space-2xl);
+  border-bottom: 3px solid var(--color-primary);
+}
+
+.pending-activations-header {
+  margin-bottom: var(--space-lg);
+}
+
+.pending-activations-header h2 {
+  color: var(--color-primary);
+  margin-bottom: var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.pending-activations-header h2 i {
+  color: #ffc107;
+}
+
+.pending-activations-header p {
+  color: var(--color-text-light);
+  font-size: 1.1rem;
+}
+
+/* Pending Users List */
+.pending-users-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Pending User Card */
+.pending-user-card {
+  background-color: var(--color-white);
+  padding: var(--space-md);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  border-left: 4px solid #ffc107;
+}
+
+.pending-user-card:hover {
+  transform: translateX(8px);
+  box-shadow: var(--shadow-lg);
+  background-color: #fafaf8;
+}
+
+/* Pending User Header */
+.pending-user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--color-light);
+}
+
+.pending-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+/* Pending User Body */
+.pending-user-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+/* Pending User Actions */
+.pending-user-actions {
+  padding-top: var(--space-sm);
+  border-top: 2px solid var(--color-light);
+}
+
+.pending-user-actions .btn {
+  margin: 0;
+}
+
+
+/* Active Users Section */
+
+/* User List Header */
+.user-list-header {
+  margin-bottom: var(--space-lg);
+}
+
+.user-list-header h2 {
+  color: var(--color-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.user-list-header p {
+  color: var(--color-text-light);
+  font-size: 1.1rem;
+}
+
+/* User Cards List */
+.user-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Individual User Card */
+.user-card {
+  background-color: var(--color-white);
+  padding: var(--space-md);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+
+.user-card:hover {
+  transform: translateX(8px);
+  box-shadow: var(--shadow-lg);
+  background-color: #fafaf8;
+}
+
+/* User Card Header */
+.user-card-header {
+  margin-bottom: var(--space-sm);
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--color-light);
+}
+
+.user-name {
+  font-size: 1.5rem;
+  color: var(--color-dark);
+  font-weight: 600;
+  margin: 0;
+}
+
+.user-badges {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.badge i {
+  font-size: 0.8rem;
+}
+
+.badge-superuser {
+  background-color: #ffd700;
+  color: #7a5c00;
+}
+
+.badge-staff {
+  background-color: #e8d5a8;
+  color: #6b5435;
+}
+
+.badge-active {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.badge-inactive {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* User Card Body */
+.user-card-body {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+.user-detail {
+  display: flex;
+  gap: var(--space-xs);
+  align-items: baseline;
+}
+
+.detail-label {
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  font-weight: 600;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.detail-label i {
+  color: var(--color-primary);
+  font-size: 0.85rem;
+}
+
+.detail-value {
+  font-size: 0.95rem;
+  color: var(--color-dark);
+}
+
+/* User Card Actions */
+.user-card-actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  padding-top: var(--space-md);
+  border-top: 2px solid var(--color-light);
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.user-card-actions .btn i {
+  margin-right: var(--space-xs);
+}
+
+/* No Users State */
+.no-users {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--color-text-light);
+}
+
+.no-users i {
+  font-size: 4rem;
+  margin-bottom: var(--space-md);
+  opacity: 0.5;
+}
+
+.no-users p {
+  font-size: 1.2rem;
+}
+
+
+/* Danger Button */
+.btn-danger {
+  background-color: #dc3545;
+  color: var(--color-white);
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.btn-danger:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Inactive Notice */
+.inactive-notice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--color-text-light);
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+.inactive-notice i {
+  color: var(--color-text-light);
+}
+
+
+/* Deactivated Users Section */
+.deactivated-users-section {
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-2xl);
+  border-top: 3px solid var(--color-light);
+}
+
+.deactivated-users-header {
+  margin-bottom: var(--space-lg);
+}
+
+.deactivated-users-header h2 {
+  color: var(--color-text-light);
+  margin-bottom: var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.deactivated-users-header h2 i {
+  color: #6c757d;
+}
+
+.deactivated-users-header p {
+  color: var(--color-text-light);
+  font-size: 1.1rem;
+}
+
+/* Deactivated user cards - muted appearance */
+.deactivated-users-section .user-card {
+  opacity: 0.7;
+  border-left: 4px solid #6c757d;
+}
+
+.deactivated-users-section .user-card:hover {
+  opacity: 0.85;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stats-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    padding: var(--space-md);
+  }
+
+  .stat-card i {
+    font-size: 2rem;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+  }
+
+  .user-card {
+    padding: var(--space-sm);
+  }
+
+  .user-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-name {
+    font-size: 1.25rem;
+  }
+
+  .user-card-body {
+    grid-template-columns: 1fr;
+  }
+
+  .user-card-actions {
+    flex-direction: column;
+  }
+
+  .user-card-actions .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-simple h1 {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .user-name {
+    font-size: 1.1rem;
+  }
+}
+
+
+/* --- Normalize vertical spacing between account sections --- */
+.pending-section,
+.active-users-section,
+.deactivated-users-section {
+  margin-bottom: var(--space-lg);
+  padding-bottom: 0;
+}
+
+.pending-section {
+  padding-bottom: var(--space-lg);
+  border-bottom: 3px solid var(--color-light);
+}
+
+.deactivated-users-section {
+  padding-top: var(--space-lg);
+  border-top: 3px solid var(--color-light);
+}
+
+/* Collapsible Deactivated Users section */
+#deactivated-users-section.is-collapsed {
+  display: none;
+}
+
+/* --- User Status Badges --- */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.status-badge i {
+  font-size: 0.85rem;
+}
+
+/* Pending */
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+/* Active */
+.status-active {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+/* Deactivated */
+.status-deactivated {
+  background-color: #f8d7da;
+  color: #721c24;
+}

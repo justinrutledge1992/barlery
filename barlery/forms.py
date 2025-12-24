@@ -1,6 +1,10 @@
 from django import forms
 from django import forms
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 from .models import EventRequest
 
 class ContactForm(forms.Form):
@@ -57,3 +61,39 @@ class EventRequestForm(forms.ModelForm):
 
         # Default to Email
         self.fields["contact_preference"].initial = EventRequest.CONTACT_EMAIL
+
+
+
+class BarleryUserCreationForm(UserCreationForm):
+    """
+    Custom user creation form for Barlery.
+    Creates users with is_active=False by default.
+    """
+    first_name = forms.CharField(
+        max_length=150,
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'First name'})
+    )
+    last_name = forms.CharField(
+        max_length=150,
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Last name'})
+    )
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={'placeholder': 'your.email@example.com'})
+    )
+    
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email', 'password1', 'password2')
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.is_active = False  # Inactive until staff activates
+        if commit:
+            user.save()
+        return user

@@ -1,0 +1,90 @@
+{% extends "barlery/base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Account Management | Barlery</title>
+<meta name="description" content="Manage user accounts">
+<meta name="robots" content="noindex, nofollow">
+{% endblock head %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/account_management.css' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}">
+{% endblock extra_css %}
+
+{% block body %}
+
+<!-- Hero Section -->
+<section class="hero-simple">
+  <div class="container">
+    <h1>Account Management</h1>
+    <p class="hero-subtitle">Manage Barlery User Accounts</p>
+  </div>
+</section>
+
+<!-- Pending Activations List -->
+{% if pending_users %}
+<section class="section section-light">
+  <div class="container-narrow">
+    <div class="pending-section-header">
+      <h2><i class="fas fa-user-clock"></i> Pending Users</h2>
+      <p>{{ pending_users.count }} account{{ pending_users.count|pluralize }} awaiting activation</p>
+    </div>
+    
+    <div class="pending-users-list">
+      {% for user in pending_users %}
+        {% include "barlery/_user_card.html" with user=user variant="pending" %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+
+<!-- Active Users List -->
+<section class="section section-light">
+    <div class="container-narrow">
+      <!-- User List Header -->
+      <div class="user-list-header">
+        <h2><i class="fas fa-user"></i> Users</h2>
+      </div>
+
+      <!-- User Cards List -->
+      <div class="user-cards-list">
+        {% for user in users %}
+          {% include "barlery/_user_card.html" with user=user variant="active" %}
+        {% endfor %}
+      </div>
+    </div>
+</section>
+
+<!-- Deactivated Users (collapsed by default) -->
+{% if deactivated_users %}
+  <section class="section section-light is-collapsed" id="deactivated-users-section">
+    <div class="container-narrow">
+      <div class="deactivated-users-header">
+        <h2><i class="fas fa-user-slash"></i> Deactivated Users</h2>
+        <p>Reactivate deactivated accounts</p>
+      </div>
+      <div class="user-cards-list">
+        {% for user in deactivated_users %}
+          {% include "barlery/_user_card.html" with user=user variant="deactivated" %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Toggle button at bottom of page -->
+  <section class="section section-light">
+    <div class="container-narrow" style="text-align:center;">
+      <button class="btn btn-secondary btn-sm" type="button" id="toggle-deactivated-users">
+        See Deactivated Users
+      </button>
+    </div>
+  </section>
+{% endif %}
+
+{% endblock body %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/account_management.js' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}"></script>
+{% endblock extra_scripts %}

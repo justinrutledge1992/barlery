@@ -1,54 +1,92 @@
-{% extends "../barlery/simple_form_base.html" %}
+{% extends "barlery/base.html" %}
+{% load static %}
 
 {% block head %}
-<title>Barlery ⋅ Login</title>
+<title>Login | Barlery</title>
 <meta name="description" content="">
-<meta name="keywords" content="">
+<meta name="robots" content="noindex, nofollow">
 {% endblock head %}
 
-{% block simple_form_content %}
-{% if not user.is_authenticated %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}">
+{% endblock extra_css %}
 
-<h4>Log In</h4>
-<article class="stack">
-    <form action="{% url 'login' %}" method="post">
-        {% csrf_token %}
+{% block body %}
 
-        <label for="id_username">Email address *</label>
-        <input
-            type="text"
-            name="username"
-            id="id_username"
-            required
-            autocomplete="username"
-            maxlength="254">
+<!-- Hero Section -->
+<section class="hero-simple">
+  <div class="container">
+    <h1>Staff Login</h1>
+    <p class="hero-subtitle">Access the Barlery Management System</p>
+  </div>
+</section>
 
-        <label for="id_password">Password *</label>
-        <input
-            type="password"
-            name="password"
-            id="id_password"
-            required
-            autocomplete="current-password">
+<!-- Login Form Section -->
+<section class="section section-light">
+  <div class="container-narrow">
+    
+    {% if user.is_authenticated %}
+      <!-- Already logged in -->
+      <div class="login-message">
+        <h2>Already Logged In</h2>
+        <p>You are currently logged in as <strong>{{ user.first_name }} {{ user.last_name }}</strong>.</p>
+        <div class="btn-group" style="margin-top: var(--space-lg);">
+          <form method="post" action="{% url 'barlery:logout' %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary">Logout</button>
+          </form>
+        </div>
+      </div>
+    {% else %}
+      <!-- Login form -->
+      <div class="login-form-container">
+        
+        {% if form.errors %}
+        <div class="form-errors">
+          <strong>Login failed.</strong> Please check your email and password and try again.
+        </div>
+        {% endif %}
+        
+        <form method="post" action="{% url 'barlery:login' %}" class="login-form">
+          {% csrf_token %}
+          
+          <div class="form-group">
+            <label for="id_username">Email Address</label>
+            <input 
+              type="email" 
+              name="username" 
+              id="id_username" 
+              required 
+              autocomplete="username"
+              autofocus
+              placeholder="you@example.com">
+          </div>
+          
+          <div class="form-group">
+            <label for="id_password">Password</label>
+            <input 
+              type="password" 
+              name="password" 
+              id="id_password" 
+              required 
+              autocomplete="current-password"
+              placeholder="Enter your password">
+          </div>
+          
+          <input type="hidden" name="next" value="{{ next }}">
+          
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Login</button>
+          </div>
+        </form>
+        
+        <div class="login-footer">
+          <p>Don't have an account? Contact the Barlery staff to request access.</p>
+        </div>
+      </div>
+    {% endif %}
+    
+  </div>
+</section>
 
-        <button type="submit">Log In</button>
-    </form>
-</article>
-<p>If you don't have an account, you must request one from the Barlery staff.</p>
-
-<script>
-    const passwordInput = document.getElementById('id_password');
-
-    passwordInput.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            e.target.form.submit();
-        }
-    });
-</script>
-
-{% else %}
-<p>You are already logged in.</p>
-<p><a href="{% url 'barlery:logout' %}">Logout</a> and try again.</p>
-{% endif %}
-{% endblock simple_form_content %}
+{% endblock body %}

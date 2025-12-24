@@ -545,7 +545,7 @@ footer p {
    ============================================ */
 .card {
   background: var(--color-white);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: none;
   border-radius: var(--border-radius);
   overflow: hidden;
   transition: var(--transition);
@@ -600,6 +600,74 @@ footer p {
   flex-grow: 1;
   line-height: 1.6;
 }
+
+
+/* Event Card Placeholder Images */
+.event-placeholder-image {
+  width: 100%;
+  height: 100%;
+  min-height: 400px; /* Match card-image height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  padding: var(--space-md);
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.event-placeholder-image span {
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  max-width: 80%;
+}
+
+/* Gradient Variants - Soft, subtle colors outside main palette */
+/* Soft Yellow/Gold - IDs: 1, 4, 7, 10, 13, 16, 19... */
+.event-placeholder-variant-1,
+.event-placeholder-variant-4,
+.event-placeholder-variant-7,
+.event-placeholder-variant-10,
+.event-placeholder-variant-13,
+.event-placeholder-variant-16,
+.event-placeholder-variant-19 {
+  background: linear-gradient(135deg, #e8d5a8 0%, #d4bd8a 100%);
+}
+
+/* Soft Green - IDs: 2, 5, 8, 11, 14, 17, 20... */
+.event-placeholder-variant-2,
+.event-placeholder-variant-5,
+.event-placeholder-variant-8,
+.event-placeholder-variant-11,
+.event-placeholder-variant-14,
+.event-placeholder-variant-17,
+.event-placeholder-variant-20 {
+  background: linear-gradient(135deg, #a8d5ba 0%, #8fbc9f 100%);
+}
+
+/* Soft Blue - IDs: 3, 6, 9, 12, 15, 18, 21... */
+.event-placeholder-variant-3,
+.event-placeholder-variant-6,
+.event-placeholder-variant-9,
+.event-placeholder-variant-12,
+.event-placeholder-variant-15,
+.event-placeholder-variant-18,
+.event-placeholder-variant-21 {
+  background: linear-gradient(135deg, #a8c5e8 0%, #8cafd6 100%);
+}
+
+/* Default fallback gradient */
+.event-placeholder-image:not([class*="variant-"]) {
+  background: linear-gradient(135deg, var(--color-light) 0%, var(--color-primary-light) 100%);
+  color: var(--color-text);
+}
+
 
 .card-footer {
   padding-top: var(--space-sm);

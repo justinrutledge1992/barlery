@@ -16,6 +16,13 @@ urlpatterns = [
     path("privacy", views.privacy, name="privacy"),
     path("success", views.success, name="success"),
 
-    # Accounts:
-    path("successful_logout", views.successful_logout, name="successful_logout"),
+    # User Creation & Activation:
+    path("accounts/create", views.user_create, name="user_create"),
+    path("accounts/activate/<int:user_id>/", views.activate_user, name="activate_user"),
+    path("accounts/deactivate/<int:user_id>/", views.deactivate_user, name="deactivate_user"),
+    
+    # Accounts (Custom):
+    path("accounts/login/", views.custom_login, name="login"),
+    path("accounts/logout/", views.custom_logout, name="logout"),
+    path("accounts/management/", views.account_management, name="account_management"),
 ]

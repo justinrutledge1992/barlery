@@ -18,7 +18,11 @@ Expected context variables:
         {% if event.image %}
         <img src="{{ event.image.url }}" alt="{{ event.title }}">
         {% else %}
-        <img src="https://via.placeholder.com/400x500/8B4513/FFFFFF?text={{ event.title|urlencode }}" alt="{{ event.title }}">
+        {% with variant_num=event.id|default:1 %}
+        <div class="event-placeholder-image event-placeholder-variant-{{ variant_num }}">
+            <span>{{ event.title }}</span>
+        </div>
+        {% endwith %}
         {% endif %}
     </div>
     <div class="card-body">

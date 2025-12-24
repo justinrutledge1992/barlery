@@ -1,13 +1,20 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import login as auth_login, logout as auth_logout
+from django.contrib.admin.views.decorators import staff_member_required
+from django.views.decorators.http import require_POST
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+from django.contrib.auth.forms import AuthenticationForm
 from django.core.mail import send_mail
 from django.utils import timezone
 
-from .forms import ContactForm, EventRequestForm
+from .forms import ContactForm, EventRequestForm, BarleryUserCreationForm
 from .models import Event, WeeklyHours, EventRequest
-from .mailers import send_contact_email, send_venue_request_email
+from .mailers import send_contact_email, send_venue_request_email, send_new_user_email, send_user_activation_email
 
 def index(request):
     # Get upcoming events
@@ -140,5 +147,170 @@ def success(request):
     """
     return render(request, "barlery/success.html")
 
-def successful_logout(request):
-    return render(request, "barlery/index.html")
+
+@staff_member_required(login_url='/accounts/login/')
+def account_management(request):
+    pending_users = User.objects.filter(
+        is_active=False,
+        last_login__isnull=True
+    ).order_by('-date_joined')
+
+    active_users = User.objects.filter(is_active=True).order_by('-date_joined')
+
+    deactivated_users = User.objects.filter(
+        is_active=False,
+        last_login__isnull=False
+    ).order_by('-date_joined')
+
+    context = {
+        'pending_users': pending_users,
+        'users': active_users,
+        'deactivated_users': deactivated_users,
+    }
+    return render(request, 'barlery/account_management.html', context)
+
+
+def user_create(request):
+    """
+    Public page for creating new user accounts.
+    Creates inactive users that must be activated by staff.
+    """
+    if request.method == 'POST':
+        form = BarleryUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            
+            # Send notification email to staff
+            send_new_user_email(user)
+            
+            messages.success(
+                request,
+                f"Account created successfully! A staff member will review and activate your account soon."
+            )
+            return redirect('/success?type=user_created')
+    else:
+        form = BarleryUserCreationForm()
+    
+    return render(request, 'barlery/user_create.html', {'form': form})
+
+
+@staff_member_required(login_url='/accounts/login/')
+@require_POST
+def deactivate_user(request, user_id):
+    """
+    Staff-only endpoint to deactivate a user account.
+    Sets is_active to False for the specified user.
+    """
+    try:
+        user = User.objects.get(id=user_id)
+        
+        # Prevent deactivating superusers
+        if user.is_superuser:
+            return JsonResponse({
+                'success': False,
+                'error': 'Cannot deactivate superuser accounts'
+            }, status=403)
+        
+        # Prevent staff from deactivating themselves
+        if user.id == request.user.id:
+            return JsonResponse({
+                'success': False,
+                'error': 'You cannot deactivate your own account'
+            }, status=403)
+        
+        # Deactivate the user
+        user.is_active = False
+        user.save()
+        
+        return JsonResponse({
+            'success': True,
+            'message': f'Account for {user.first_name} {user.last_name} has been deactivated'
+        })
+        
+    except User.DoesNotExist:
+        return JsonResponse({
+            'success': False,
+            'error': 'User not found'
+        }, status=404)
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=500)
+
+@staff_member_required(login_url='/accounts/login/')
+@require_POST
+def activate_user(request, user_id):
+    """
+    Staff-only endpoint to activate a pending user account.
+    Sets is_active to True for the specified user.
+    """
+    try:
+        user = User.objects.get(id=user_id)
+        
+        # Check if user is already active
+        if user.is_active:
+            return JsonResponse({
+                'success': False,
+                'error': 'User is already active'
+            }, status=400)
+        
+        # Activate the user
+        user.is_active = True
+        user.save()
+        
+        # Send notification email to staff
+        send_user_activation_email(user)
+        
+        return JsonResponse({
+            'success': True,
+            'message': f'Account for {user.first_name} {user.last_name} has been activated'
+        })
+        
+    except User.DoesNotExist:
+        return JsonResponse({
+            'success': False,
+            'error': 'User not found'
+        }, status=404)
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=500)
+
+
+def custom_login(request):
+    """
+    Custom login view with success message.
+    """
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            auth_login(request, user)
+            messages.success(request, f"Welcome back, {user.email}!")
+            
+            # Redirect to 'next' parameter or home
+            next_url = request.GET.get('next') or request.POST.get('next')
+            if next_url:
+                return redirect(next_url)
+            return redirect('barlery:index')
+    else:
+        form = AuthenticationForm()
+    
+    return render(request, 'registration/login.html', {'form': form})
+
+def custom_logout(request):
+    """
+    Custom logout view with success message.
+    Logs out the user and displays the login page with a success message.
+    """
+    if request.method == 'POST':
+        auth_logout(request)
+        messages.success(request, "You have been successfully logged out.")
+        # Render login template instead of redirecting
+        form = AuthenticationForm()
+        return render(request, 'registration/login.html', {'form': form})
+    
+    # If GET request, redirect to home
+    return redirect('barlery:index')

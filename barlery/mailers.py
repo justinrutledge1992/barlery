@@ -24,10 +24,10 @@ def send_contact_email(name, email, subject, message):
     Returns:
         bool: True if email sent successfully, False otherwise
     """
-    email_subject = f"[Barlery Contact Form] {subject}"
+    email_subject = f"[Barlery Contact] {subject}"
     
     # Format email body with styled headers
-    email_body = f"""---Contact Form Submission---
+    email_body = f"""New Contact Form Submission
 
 CONTACT INFORMATION:
 --------------------
@@ -82,7 +82,7 @@ def send_venue_request_email(event_request):
     )
     
     # Build the email body
-    message = f"""---Venue Rental Request---
+    message = f"""New Venue Rental Request Submitted
 
 CONTACT INFORMATION:
 --------------------
@@ -122,4 +122,96 @@ This is an automated notification from the Barlery website.
         return True
     except Exception as e:
         logger.error(f"Failed to send venue request email: {str(e)}", exc_info=True)
+        return False
+
+
+def send_new_user_email(user):
+    """
+    Send notification email to staff when a new user account is created.
+    
+    Args:
+        user: User model instance (newly created, inactive)
+    
+    Returns:
+        bool: True if email sent successfully, False otherwise
+    """
+    subject = f"[Barlery] New User Account Created: {user.first_name} {user.last_name}"
+    
+    message = f"""New User Account Created
+
+A new user has requested an account on the Barlery website.
+
+USER INFORMATION:
+-----------------
+Name: {user.first_name} {user.last_name}
+Email: {user.email}
+Date Requested: {user.date_joined.strftime('%B %d, %Y at %I:%M %p')}
+
+NEXT STEPS:
+-----------
+This account is currently INACTIVE and pending approval.
+
+To activate this account, please visit:
+{settings.SITE_URL}/accounts/management
+
+---
+This is an automated notification from the Barlery website.
+"""
+    
+    try:
+        send_mail(
+            subject=subject,
+            message=message,
+            from_email=getattr(settings, "DEFAULT_FROM_EMAIL", None),
+            recipient_list=[settings.CONTACT_RECIPIENT_EMAIL],
+            fail_silently=False,
+        )
+        return True
+    except Exception as e:
+        logger.error(f"Failed to send new user email: {str(e)}", exc_info=True)
+        return False
+
+
+def send_user_activation_email(user):
+    """
+    Send notification email to staff when a user account is activated.
+    
+    Args:
+        user: User model instance (newly activated)
+    
+    Returns:
+        bool: True if email sent successfully, False otherwise
+    """
+    subject = f"[Barlery] User Account Activated: {user.first_name} {user.last_name}"
+    
+    message = f"""User Account Activated
+
+A user account has been activated on the Barlery website.
+
+USER INFORMATION:
+-----------------
+Name: {user.first_name} {user.last_name}
+Email: {user.email}
+Account Created: {user.date_joined.strftime('%B %d, %Y at %I:%M %p')}
+Activated: Just now
+
+STATUS:
+-------
+This user can now log in to the Barlery system.
+
+---
+This is an automated notification from the Barlery website.
+"""
+    
+    try:
+        send_mail(
+            subject=subject,
+            message=message,
+            from_email=getattr(settings, "DEFAULT_FROM_EMAIL", None),
+            recipient_list=[settings.CONTACT_RECIPIENT_EMAIL],
+            fail_silently=False,
+        )
+        return True
+    except Exception as e:
+        logger.error(f"Failed to send user activation email: {str(e)}", exc_info=True)
         return False

@@ -24,7 +24,7 @@ def send_contact_email(name, email, subject, message):
     Returns:
         bool: True if email sent successfully, False otherwise
     """
-    email_subject = f"[Barlery Contact] {subject}"
+    email_subject = f"[Barlery Contact Form] {subject}"
     
     # Format email body with styled headers
     email_body = f"""---Contact Form Submission---

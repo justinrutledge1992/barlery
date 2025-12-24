@@ -1,0 +1,90 @@
+{% extends "barlery/base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Login | Barlery</title>
+<meta name="description" content="">
+<meta name="robots" content="noindex, nofollow">
+{% endblock head %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}">
+{% endblock extra_css %}
+
+{% block body %}
+
+<!-- Hero Section -->
+<section class="hero-simple">
+  <div class="container">
+    <h1>Staff Login</h1>
+    <p class="hero-subtitle">Access the Barlery Management System</p>
+  </div>
+</section>
+
+<!-- Login Form Section -->
+<section class="section section-light">
+  <div class="container-narrow">
+    
+    {% if user.is_authenticated %}
+      <!-- Already logged in -->
+      <div class="login-message">
+        <h2>Already Logged In</h2>
+        <p>You are currently logged in as <strong>{{ user.email }}</strong>.</p>
+        <div class="btn-group" style="margin-top: var(--space-lg);">
+          <a href="{% url 'barlery:index' %}" class="btn btn-primary">Go to Home</a>
+          <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
+        </div>
+      </div>
+    {% else %}
+      <!-- Login form -->
+      <div class="login-form-container">
+        
+        {% if form.errors %}
+        <div class="form-errors">
+          <strong>Login failed.</strong> Please check your email and password and try again.
+        </div>
+        {% endif %}
+        
+        <form method="post" action="{% url 'login' %}" class="login-form">
+          {% csrf_token %}
+          
+          <div class="form-group">
+            <label for="id_username">Email Address</label>
+            <input 
+              type="email" 
+              name="username" 
+              id="id_username" 
+              required 
+              autocomplete="username"
+              autofocus
+              placeholder="you@example.com">
+          </div>
+          
+          <div class="form-group">
+            <label for="id_password">Password</label>
+            <input 
+              type="password" 
+              name="password" 
+              id="id_password" 
+              required 
+              autocomplete="current-password"
+              placeholder="Enter your password">
+          </div>
+          
+          <input type="hidden" name="next" value="{{ next }}">
+          
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Login</button>
+          </div>
+        </form>
+        
+        <div class="login-footer">
+          <p>Don't have an account? Contact the Barlery staff to request access.</p>
+        </div>
+      </div>
+    {% endif %}
+    
+  </div>
+</section>
+
+{% endblock body %}

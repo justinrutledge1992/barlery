@@ -2,15 +2,20 @@
 .split-section {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-xl);
+  gap: var(--space-md);
   align-items: center;
 }
 
 .split-section-reverse {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-xl);
+  gap: var(--space-md);
   align-items: center;
+}
+
+/* Tighter gap for location section specifically */
+.location-split {
+  gap: var(--space-md);
 }
 
 .split-section-reverse > :first-child {
@@ -26,6 +31,7 @@
   height: 400px;
   object-fit: cover;
   border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Responsive Google Maps container */
@@ -36,6 +42,7 @@
   background: var(--color-light);
   border-radius: var(--border-radius);
   overflow: hidden;
+  box-shadow: var(--shadow-lg);
 }
 
 .map-container iframe {

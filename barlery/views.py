@@ -43,9 +43,41 @@ def menu(request):
     })
 
 def calendar(request):
+    from django.http import JsonResponse
+    from django.template.loader import render_to_string
+    
+    # Get page number from query params (default to 1)
+    page = int(request.GET.get('page', 1))
+    events_per_page = 9  # Show 9 events per page (3 rows of 3)
+    
     # Get all upcoming events, ordered by date and time
-    upcoming_events = Event.objects.filter(date__gte=timezone.now()).order_by('date', 'start_time')
-    return render(request, "barlery/calendar.html", {"upcoming_events": upcoming_events})
+    all_events = Event.objects.filter(date__gte=timezone.now()).order_by('date', 'start_time')
+    
+    # Calculate pagination
+    start_idx = (page - 1) * events_per_page
+    end_idx = start_idx + events_per_page
+    
+    events_page = all_events[start_idx:end_idx]
+    has_more = end_idx < all_events.count()
+    
+    # If it's an AJAX request, return JSON with HTML
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        events_html = render_to_string('barlery/_event_cards_list.html', {
+            'events': events_page
+        })
+        
+        return JsonResponse({
+            'html': events_html,
+            'has_more': has_more,
+            'next_page': page + 1
+        })
+    
+    # Regular page load
+    return render(request, "barlery/calendar.html", {
+        "upcoming_events": events_page,
+        "has_more": has_more,
+        "total_events": all_events.count()
+    })
 
 def venue(request):
     if request.method == "POST":

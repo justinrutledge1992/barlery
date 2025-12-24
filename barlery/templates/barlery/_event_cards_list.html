@@ -1,0 +1,8 @@
+{% comment %}
+Partial template for rendering a list of event cards
+Used for AJAX pagination on the calendar page
+{% endcomment %}
+
+{% for event in events %}
+  {% include "barlery/_event_card.html" with event=event %}
+{% endfor %}

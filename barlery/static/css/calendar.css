@@ -21,8 +21,26 @@
 /* Events Grid */
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: var(--space-lg);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-md);
+}
+
+/* Load More Button */
+.load-more-container {
+  text-align: center;
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.load-more-container .btn {
+  min-width: 250px;
+  font-size: 1.1rem;
+}
+
+#load-more-btn.loading {
+  opacity: 0.6;
+  cursor: wait;
 }
 
 /* No Events State */

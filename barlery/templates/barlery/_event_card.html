@@ -7,11 +7,10 @@ Usage in template:
 Expected context variables:
     - event: Event object with the following attributes:
     - title: Event name
-    - description: Event description
     - date: Event date
-    - time: Event time
-    - image: Event image (optional)
-- get_absolute_url: URL to event detail page
+    - start_time: Event start time
+    - image: Event image (optional) - recommended 4:5 ratio (e.g., 1080x1350px Instagram format)
+    - get_absolute_url: URL to event detail page (optional)
 {% endcomment %}
 
 <div class="card">
@@ -19,14 +18,11 @@ Expected context variables:
         {% if event.image %}
         <img src="{{ event.image.url }}" alt="{{ event.title }}">
         {% else %}
-        <img src="https://via.placeholder.com/400x250/8B4513/FFFFFF?text={{ event.title|urlencode }}" alt="{{ event.title }}">
+        <img src="https://via.placeholder.com/400x500/8B4513/FFFFFF?text={{ event.title|urlencode }}" alt="{{ event.title }}">
         {% endif %}
     </div>
     <div class="card-body">
         <h3 class="card-title">{{ event.title }}</h3>
-        <p class="card-text">
-        {{ event.description|truncatewords:25 }}
-        </p>
         <div class="card-footer">
         <span style="color: var(--color-primary); font-weight: 600;">
             {{ event.date|date:"l, F j" }} 

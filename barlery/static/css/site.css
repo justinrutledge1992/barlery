@@ -553,7 +553,7 @@ footer p {
 
 .card-image {
   width: 100%;
-  height: 250px;
+  height: 400px;
   overflow: hidden;
   background-color: var(--color-light);
   position: relative;
@@ -582,6 +582,7 @@ footer p {
   margin-bottom: var(--space-sm);
   color: var(--color-dark);
   font-weight: 700;
+  flex-grow: 1;
 }
 
 .card-text {
@@ -920,6 +921,11 @@ header nav.active {
   
   .btn {
     width: 100%;
+  }
+  
+  /* Keep card footer buttons at auto width */
+  .card-footer .btn {
+    width: auto;
   }
   
   .split-section,

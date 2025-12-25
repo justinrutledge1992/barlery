@@ -47,7 +47,12 @@ Expected context:
     <div class="user-detail">
       <span class="detail-label"><i class="fas fa-key"></i> Permissions:</span>
       <span class="detail-value">
-        {% if variant == "pending" or variant == "deactivated" %}
+        {% if variant == "pending" %}
+          <select class="permission-select" data-user-id="{{ user.id }}">
+            <option value="basic">Basic</option>
+            <option value="elevated">Elevated</option>
+          </select>
+        {% elif variant == "deactivated" %}
           None
         {% elif user.is_staff %}
           Elevated
@@ -84,6 +89,10 @@ Expected context:
   <!-- Actions -->
   <div class="{% if variant == 'pending' %}pending-user-actions{% else %}user-card-actions{% endif %}">
     {% if variant == "active" %}
+      <a href="{% url 'barlery:edit_user' user.id %}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-edit"></i> Edit
+      </a>
+      
       <button
         class="btn btn-danger btn-sm"
         data-action="deactivate"

@@ -101,6 +101,34 @@
   margin-bottom: var(--space-md);
 }
 
+/* Event Actions (Edit/Delete buttons) */
+.event-actions {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 2px solid var(--color-light);
+}
+
+.event-actions form {
+  display: inline;
+  margin: 0;
+}
+
+.event-actions .btn {
+  font-size: 1rem;
+  padding: var(--space-sm) var(--space-lg);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.event-actions .btn i {
+  margin-right: var(--space-xs);
+}
+
 /* Call to Action */
 .event-cta {
   text-align: center;
@@ -117,10 +145,47 @@
   margin-right: var(--space-xs);
 }
 
+/* Danger Button */
+.btn-danger {
+  background-color: #dc3545;
+  color: var(--color-text-inverse);
+  border: 2px solid #dc3545;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--border-radius);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  color: var(--color-text-inverse);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .page-title {
     font-size: 2rem;
+  }
+
+  /* Stack action buttons on mobile */
+  .event-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .event-actions .btn {
+    width: 100%;
   }
 
   /* Stack columns on mobile */

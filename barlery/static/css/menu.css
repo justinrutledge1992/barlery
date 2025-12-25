@@ -140,6 +140,64 @@
   font-size: 0.8rem;
 }
 
+/* Delete Button for Menu Items */
+.menu-item-name form {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.btn-delete-menu-item {
+  /* Reset browser defaults */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Size */
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  
+  /* Shape */
+  border-radius: 50%;
+  
+  /* Colors */
+  background-color: #b00020;
+  color: white;
+  
+  /* Remove defaults */
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  
+  /* Behavior */
+  transition: var(--transition);
+  flex-shrink: 0;
+  cursor: pointer;
+  
+  /* Font */
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1;
+}
+
+.btn-delete-menu-item:hover {
+  background-color: #8a0018;
+  transform: scale(1.1);
+}
+
+.btn-delete-menu-item i {
+  font-size: 0.8rem;
+  pointer-events: none;
+}
+
 .menu-item-description {
   color: var(--color-text-light);
   margin: 0;

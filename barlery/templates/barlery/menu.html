@@ -28,6 +28,13 @@
       wine, spirits, quality non-alcoholic options, and delicious hot dogs. 
       Check out what we have available!
     </p>
+    {% if user.is_authenticated %}
+    <div style="margin-top: var(--space-lg);">
+      <a href="{% url 'barlery:menu_item_create' %}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Add Menu Item
+      </a>
+    </div>
+    {% endif %}
   </div>
 </section>
 

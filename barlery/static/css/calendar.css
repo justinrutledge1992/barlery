@@ -25,46 +25,6 @@
   gap: var(--space-md);
 }
 
-/* Card Title Row - title and edit button */
-.card-title-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-sm);
-}
-
-.card-title-row .card-title {
-  flex: 1;
-  margin: 0;
-  margin-bottom: 0 !important;
-}
-
-/* Edit Button Icon */
-.btn-edit {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: var(--color-light);
-  color: var(--color-primary);
-  transition: var(--transition);
-  flex-shrink: 0;
-  text-decoration: none;
-}
-
-.btn-edit:hover {
-  background-color: var(--color-primary);
-  color: var(--color-text-inverse);
-  transform: scale(1.1);
-}
-
-.btn-edit i {
-  font-size: 0.9rem;
-}
-
 /* Load More Button */
 .load-more-container {
   text-align: center;

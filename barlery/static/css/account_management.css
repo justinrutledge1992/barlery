@@ -696,3 +696,104 @@
   background-color: #e0e0e0;
   color: #424242;
 }
+
+/* Permission Select Dropdown */
+.permission-select {
+  padding: 0.25rem 0.5rem;
+  border: 2px solid var(--color-light);
+  border-radius: var(--border-radius);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  background-color: var(--color-white);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.permission-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(139, 111, 71, 0.1);
+}
+
+.permission-select:hover {
+  border-color: var(--color-primary);
+}
+
+/* Edit User Modal */
+.edit-user-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: relative;
+  background-color: var(--color-white);
+  padding: var(--space-lg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 10000;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: var(--space-md);
+  color: var(--color-primary);
+}
+
+.modal-content .form-group {
+  margin-bottom: var(--space-md);
+}
+
+.modal-content .form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+  color: var(--color-dark);
+}
+
+.modal-content .form-group input,
+.modal-content .form-group select {
+  width: 100%;
+  padding: var(--space-sm);
+  border: 2px solid var(--color-light);
+  border-radius: var(--border-radius);
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+.modal-content .form-group input:focus,
+.modal-content .form-group select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(139, 111, 71, 0.1);
+}
+
+.modal-actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.modal-actions .btn {
+  flex: 1;
+}

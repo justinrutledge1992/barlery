@@ -165,3 +165,34 @@ class MenuItemForm(forms.ModelForm):
             'description': 'Description',
             'price': 'Price ($)',
         }
+
+class UserEditForm(forms.ModelForm):
+    """
+    Form for staff to edit user phone and permissions.
+    """
+    PERMISSION_CHOICES = [
+        ('basic', 'Basic'),
+        ('elevated', 'Elevated'),
+    ]
+    
+    permission_level = forms.ChoiceField(
+        choices=PERMISSION_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label='Permissions'
+    )
+    
+    class Meta:
+        model = User
+        fields = ['phone']
+        widgets = {
+            'phone': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': '(555) 555-5555'
+            })
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Set initial permission level based on is_staff
+        if self.instance and self.instance.pk:
+            self.fields['permission_level'].initial = 'elevated' if self.instance.is_staff else 'basic'

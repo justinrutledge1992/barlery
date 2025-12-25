@@ -152,14 +152,16 @@ def success(request):
 def account_management(request):
     pending_users = User.objects.filter(
         is_active=False,
-        last_login__isnull=True
+        last_login__isnull=True,
+        is_superuser=False,
     ).order_by('-date_joined')
 
-    active_users = User.objects.filter(is_active=True).order_by('-date_joined')
+    active_users = User.objects.filter(is_active=True, is_superuser=False).order_by('-date_joined')
 
     deactivated_users = User.objects.filter(
         is_active=False,
-        last_login__isnull=False
+        last_login__isnull=False,
+        is_superuser=False,
     ).order_by('-date_joined')
 
     context = {
@@ -243,10 +245,19 @@ def deactivate_user(request, user_id):
 def activate_user(request, user_id):
     """
     Staff-only endpoint to activate a pending user account.
-    Sets is_active to True for the specified user.
+    Sets is_active to True and sets permission level based on request data.
     """
     try:
+        import json
+        
         user = User.objects.get(id=user_id)
+        # Prevent activating superusers (they shouldn't be in pending state anyway)
+        if user.is_superuser:
+            return JsonResponse({
+                'success': False,
+                'error': 'Cannot modify superuser accounts'
+            }, status=403)
+
         
         # Check if user is already active
         if user.is_active:
@@ -255,16 +266,37 @@ def activate_user(request, user_id):
                 'error': 'User is already active'
             }, status=400)
         
+        # Get permission level from request body
+        permission_level = 'basic'  # default
+        if request.body:
+            try:
+                data = json.loads(request.body)
+                permission_level = data.get('permission_level', 'basic')
+                print(f"DEBUG: Received permission_level: {permission_level}")
+                print(f"DEBUG: Full request data: {data}")
+            except json.JSONDecodeError as e:
+                print(f"DEBUG: JSON decode error: {e}")
+                pass
+        
         # Activate the user
         user.is_active = True
+        
+        # Set staff status based on permission level
+        if permission_level == 'elevated':
+            user.is_staff = True
+        else:
+            user.is_staff = False
+        
         user.save()
         
         # Send notification email to staff
         send_user_activation_email(user)
         
+        permission_text = 'Elevated' if user.is_staff else 'Basic'
+        
         return JsonResponse({
             'success': True,
-            'message': f'Account for {user.first_name} {user.last_name} has been activated'
+            'message': f'Account for {user.first_name} {user.last_name} has been activated with {permission_text} permissions'
         })
         
     except User.DoesNotExist:
@@ -422,3 +454,88 @@ def menu_item_edit(request, item_id):
         'form': form,
         'item': item
     })
+
+@login_required(login_url='/accounts/login/')
+def menu_item_delete(request, item_id):
+    """
+    Delete a menu item. Requires authentication.
+    Only accepts POST requests for safety.
+    """
+    from django.shortcuts import get_object_or_404
+    
+    if request.method == 'POST':
+        item = get_object_or_404(MenuItem, id=item_id)
+        item_name = item.name
+        item.delete()
+        messages.success(request, f"Menu item '{item_name}' deleted successfully!")
+        return redirect('barlery:menu')
+    
+    # If not POST, redirect to menu
+    return redirect('barlery:menu')
+
+@login_required(login_url='/accounts/login/')
+def event_delete(request, event_id):
+    """
+    Delete an event. Requires authentication.
+    Only accepts POST requests for safety.
+    """
+    from django.shortcuts import get_object_or_404
+    
+    if request.method == 'POST':
+        event = get_object_or_404(Event, id=event_id)
+        event_title = event.title
+        event.delete()
+        messages.success(request, f"Event '{event_title}' deleted successfully!")
+        return redirect('barlery:calendar')
+    
+    # If not POST, redirect to calendar
+    return redirect('barlery:calendar')
+
+@staff_member_required(login_url='/accounts/login/')
+def edit_user(request, user_id):
+    """
+    Staff-only page to edit user phone number and permissions.
+    """
+    from .forms import UserEditForm
+    
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        messages.error(request, 'User not found.')
+        return redirect('barlery:account_management')
+    
+    # Prevent editing superusers
+    if user.is_superuser:
+        messages.error(request, 'Cannot modify superuser accounts.')
+        return redirect('barlery:account_management')
+    
+    # Prevent staff from editing themselves
+    if user.id == request.user.id:
+        messages.error(request, 'You cannot edit your own account.')
+        return redirect('barlery:account_management')
+    
+    if request.method == 'POST':
+        form = UserEditForm(request.POST, instance=user)
+        if form.is_valid():
+            # Save phone number
+            form.save()
+            
+            # Update staff status based on permission level
+            permission_level = form.cleaned_data.get('permission_level')
+            if permission_level == 'elevated':
+                user.is_staff = True
+            else:
+                user.is_staff = False
+            user.save()
+            
+            permission_text = 'Elevated' if user.is_staff else 'Basic'
+            messages.success(request, f'Account for {user.first_name} {user.last_name} has been updated with {permission_text} permissions.')
+            return redirect('barlery:account_management')
+    else:
+        form = UserEditForm(instance=user)
+    
+    context = {
+        'form': form,
+        'edited_user': user,
+    }
+    return render(request, 'barlery/user_edit.html', context)

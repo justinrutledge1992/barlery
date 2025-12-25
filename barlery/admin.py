@@ -2,6 +2,25 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from .models import User, MenuItem, Event, EventRequest, WeeklyHours
 
+
+class SuperuserOnlyAdminSite(admin.AdminSite):
+    """
+    Custom admin site that only allows superusers to access.
+    Staff members (is_staff=True) without superuser status will be denied.
+    """
+
+    def has_permission(self, request):
+        """
+        Only allow superusers to access the admin site.
+        """
+        return request.user.is_active and request.user.is_superuser
+
+
+# Replace the default admin site with our custom one
+admin.site = SuperuserOnlyAdminSite()
+admin.sites.site = admin.site
+
+
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
     model = User

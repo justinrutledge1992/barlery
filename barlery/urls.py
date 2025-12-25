@@ -10,6 +10,11 @@ urlpatterns = [
     # Other Static Pages:
     path("about", views.about, name="about"),
     path("calendar", views.calendar, name="calendar"),
+    path("event/details/<int:event_id>/", views.event_details, name="event_details"),
+    path("event/create/", views.event_create, name="event_create"),
+    path("event/edit/<int:event_id>/", views.event_edit, name="event_edit"),
+    path("menu_item/create/", views.menu_item_create, name="menu_item_create"),
+    path("menu_item/edit/<int:item_id>/", views.menu_item_edit, name="menu_item_edit"),
     path("contact", views.contact, name="contact"),
     path("menu", views.menu, name="menu"),
     path("venue", views.venue, name="venue"),

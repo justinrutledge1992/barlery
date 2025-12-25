@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
-from .models import EventRequest
+from .models import EventRequest, Event, MenuItem
 
 class ContactForm(forms.Form):
     name = forms.CharField(
@@ -83,17 +83,85 @@ class BarleryUserCreationForm(UserCreationForm):
         required=True,
         widget=forms.EmailInput(attrs={'placeholder': 'your.email@example.com'})
     )
+    phone = forms.CharField(
+        max_length=20,
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': '(555) 555-5555'})
+    )
     
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'password1', 'password2')
+        fields = ('first_name', 'last_name', 'email', 'phone', 'password1', 'password2')
     
     def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
+        user.phone = self.cleaned_data['phone']
         user.is_active = False  # Inactive until staff activates
         if commit:
             user.save()
         return user
+
+class EventForm(forms.ModelForm):
+    """
+    Form for creating and editing events.
+    """
+    class Meta:
+        model = Event
+        fields = ('title', 'date', 'start_time', 'end_time', 'description')
+        
+        widgets = {
+            'title': forms.TextInput(attrs={'placeholder': 'Event name'}),
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'start_time': forms.TimeInput(attrs={'type': 'time'}),
+            'end_time': forms.TimeInput(attrs={'type': 'time'}),
+            'description': forms.Textarea(attrs={'rows': 6, 'placeholder': 'Tell us about the event...'}),
+        }
+        
+        labels = {
+            'title': 'Event Title',
+            'date': 'Event Date',
+            'start_time': 'Start Time',
+            'end_time': 'End Time (Optional)',
+            'description': 'Description',
+        }
+    
+    def clean_date(self):
+        """
+        Validate that the event date is today or in the future.
+        """
+        from django.utils import timezone
+        
+        date = self.cleaned_data.get('date')
+        if date:
+            today = timezone.localdate()
+            if date < today:
+                raise forms.ValidationError("Event date must be today or a future date.")
+        return date
+
+
+class MenuItemForm(forms.ModelForm):
+    """
+    Form for creating and editing menu items.
+    """
+    class Meta:
+        model = MenuItem
+        fields = ('name', 'category', 'abv', 'description', 'price')
+        
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Item name'}),
+            'category': forms.Select(),
+            'abv': forms.NumberInput(attrs={'placeholder': 'e.g., 5.0', 'step': '0.1'}),
+            'description': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Description (optional)'}),
+            'price': forms.NumberInput(attrs={'placeholder': 'e.g., 8.00', 'step': '0.01'}),
+        }
+        
+        labels = {
+            'name': 'Item Name',
+            'category': 'Category',
+            'abv': 'ABV (%)',
+            'description': 'Description',
+            'price': 'Price ($)',
+        }

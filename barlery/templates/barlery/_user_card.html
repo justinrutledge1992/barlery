@@ -13,23 +13,21 @@ Expected context:
 
   <!-- Header -->
   <div class="{% if variant == 'pending' %}pending-user-header{% else %}user-card-header{% endif %}">
-    <div style="display:flex; justify-content:space-between; align-items:center; gap: var(--space-sm);">
-      <h3 class="user-name">{{ user.first_name }} {{ user.last_name }}</h3>
+    <h3 class="user-name">{{ user.first_name }} {{ user.last_name }}</h3>
 
-      {% if variant == "pending" %}
-        <span class="status-badge status-pending">
-          <i class="fas fa-clock"></i> Pending
-        </span>
-      {% elif variant == "deactivated" %}
-        <span class="status-badge status-deactivated">
-          <i class="fas fa-times-circle"></i> Deactivated
-        </span>
-      {% else %}
-        <span class="status-badge status-active">
-          <i class="fas fa-check-circle"></i> Active
-        </span>
-      {% endif %}
-    </div>
+    {% if variant == "pending" %}
+      <span class="status-badge status-pending">
+        <i class="fas fa-clock"></i> Pending
+      </span>
+    {% elif variant == "deactivated" %}
+      <span class="status-badge status-deactivated">
+        <i class="fas fa-times-circle"></i> Deactivated
+      </span>
+    {% else %}
+      <span class="status-badge status-active">
+        <i class="fas fa-check-circle"></i> Active
+      </span>
+    {% endif %}
   </div>
 
   <!-- Body -->
@@ -45,6 +43,19 @@ Expected context:
       <span class="detail-value">{{ user.phone }}</span>
     </div>
     {% endif %}
+
+    <div class="user-detail">
+      <span class="detail-label"><i class="fas fa-key"></i> Permissions:</span>
+      <span class="detail-value">
+        {% if variant == "pending" or variant == "deactivated" %}
+          None
+        {% elif user.is_staff %}
+          Elevated
+        {% else %}
+          Basic
+        {% endif %}
+      </span>
+    </div>
 
     {% if variant == "pending" %}
       <div class="user-detail">

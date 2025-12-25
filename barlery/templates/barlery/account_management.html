@@ -23,7 +23,7 @@
 
 <!-- Pending Activations List -->
 {% if pending_users %}
-<section class="section section-light">
+<section class="section section-pending-notification">
   <div class="container-narrow">
     <div class="pending-section-header">
       <h2><i class="fas fa-user-clock"></i> Pending Users</h2>
@@ -39,9 +39,29 @@
 </section>
 {% endif %}
 
+<!-- New User Creation Link Section -->
+<section class="section section-light">
+  <div class="container-narrow">
+    <div class="user-creation-link-box">
+      <div class="user-creation-header">
+        <h3><i class="fas fa-user-plus"></i> New User Registration</h3>
+        <p>Share this link with new employees to create their account</p>
+      </div>
+      <div class="link-container">
+        <input type="text" id="registration-link" value="{{ request.scheme }}://{{ request.get_host }}{% url 'barlery:user_create' %}" readonly>
+        <button class="btn btn-primary" id="copy-link-btn">
+          <i class="fas fa-copy"></i> Copy Link
+        </button>
+      </div>
+      <p class="link-note">
+        <i class="fas fa-info-circle"></i> New accounts require staff approval before activation
+      </p>
+    </div>
+  </div>
+</section>
 
 <!-- Active Users List -->
-<section class="section section-light">
+<section class="section section-light section-active-users">
     <div class="container-narrow">
       <!-- User List Header -->
       <div class="user-list-header">
@@ -74,7 +94,7 @@
   </section>
 
   <!-- Toggle button at bottom of page -->
-  <section class="section section-light">
+  <section class="section section-light section-toggle-deactivated">
     <div class="container-narrow" style="text-align:center;">
       <button class="btn btn-secondary btn-sm" type="button" id="toggle-deactivated-users">
         See Deactivated Users

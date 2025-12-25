@@ -15,14 +15,21 @@ Expected context variables:
 <div class="menu-item">
   <div class="menu-item-header">
     <h3 class="menu-item-name">
+        {% if user.is_authenticated %}
+      <a href="{% url 'barlery:menu_item_edit' item.id %}" class="btn-edit-menu-item" title="Edit item">
+        <i class="fas fa-edit"></i>
+      </a>
+      {% endif %}
       {{ item.name }}
       {% if item.abv %}
         <span class="menu-item-abv">{{ item.abv }}% ABV</span>
       {% endif %}
     </h3>
-    {% if item.price %}
-      <span class="menu-item-price">${{ item.price }}</span>
-    {% endif %}
+    <div class="menu-item-header-right">
+      {% if item.price %}
+        <span class="menu-item-price">${{ item.price }}</span>
+      {% endif %}
+    </div>
   </div>
   {% if item.description %}
     <p class="menu-item-description">{{ item.description }}</p>

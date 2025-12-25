@@ -1,0 +1,78 @@
+{% extends "barlery/base.html" %}
+{% load static %}
+
+{% block head %}
+<title>{{ event.title }} | Barlery</title>
+<meta name="description" content="{{ event.description|truncatewords:30 }}">
+{% endblock head %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/event_details.css' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}">
+{% endblock extra_css %}
+
+{% block body %}
+<!-- Event Details Section -->
+<section class="section section-light">
+  <div class="container">
+    
+    <h1 class="page-title">{{ event.title }}</h1>
+    
+    <div class="event-layout">
+      
+      <!-- Left Column: Event Image -->
+      <div class="event-image-column">
+        <div class="event-image-container">
+          <img src="https://via.placeholder.com/800x600/8B6F47/FFFFFF?text={{ event.title|urlencode }}" 
+               alt="{{ event.title }}" 
+               class="event-image">
+        </div>
+      </div>
+      
+      <!-- Right Column: Event Details -->
+      <div class="event-details-column">
+        
+        <div class="meta-item">
+          <i class="fas fa-calendar-alt"></i>
+          <div>
+            <strong>Date</strong>
+            <p>{{ event.date|date:"l, F j, Y" }}</p>
+          </div>
+        </div>
+
+        <div class="meta-item">
+          <i class="fas fa-clock"></i>
+          <div>
+            <strong>Time</strong>
+            <p>
+              {% if event.start_time %}
+                {{ event.start_time|time:"g:i A" }}{% if event.end_time %} - {{ event.end_time|time:"g:i A" }}{% endif %}
+              {% else %}
+                Time TBA
+              {% endif %}
+            </p>
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    
+    <!-- Full Width Description -->
+    {% if event.description %}
+    <div class="event-description">
+      <h2>About This Event</h2>
+      <p>{{ event.description|linebreaks }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Call to Action -->
+    <div class="event-cta">
+      <a href="{% url 'barlery:calendar' %}" class="btn btn-primary">
+        <i class="fas fa-calendar"></i> See More Events
+      </a>
+    </div>
+
+  </div>
+</section>
+
+{% endblock body %}

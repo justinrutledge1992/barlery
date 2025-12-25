@@ -1,0 +1,193 @@
+/* Menu Item Create/Edit Page Styles */
+
+/* Hero Section */
+.hero-simple {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  padding: var(--space-xl) var(--space-md);
+  text-align: center;
+}
+
+.hero-simple h1 {
+  color: var(--color-text-inverse);
+  margin-bottom: var(--space-sm);
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  font-style: italic;
+  opacity: 0.95;
+  margin: 0;
+}
+
+/* Form Introduction */
+.form-intro {
+  margin-bottom: var(--space-lg);
+  text-align: center;
+}
+
+.form-intro p {
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+/* Menu Item Create Form Container */
+.menu-item-create-form-container {
+  background-color: var(--color-white);
+  padding: var(--space-lg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+}
+
+/* Form Styles */
+.menu-item-create-form {
+  max-width: 100%;
+}
+
+.form-group {
+  margin-bottom: var(--space-md);
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+  color: var(--color-dark);
+  font-size: 0.95rem;
+}
+
+.required {
+  color: #dc3545;
+  font-weight: 700;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: var(--space-sm);
+  border: 2px solid var(--color-light);
+  border-radius: var(--border-radius);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(139, 111, 71, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Form Row - Side by side fields */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+/* Form Hint */
+.form-hint {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin-top: var(--space-xs);
+  font-style: italic;
+}
+
+/* Error List */
+.errorlist {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-xs) 0 0 0;
+}
+
+.errorlist li {
+  color: #dc3545;
+  font-size: 0.9rem;
+  margin-top: var(--space-xs);
+}
+
+/* Form Errors (top of form) */
+.form-errors {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: var(--space-md);
+  border-radius: var(--border-radius);
+  border-left: 4px solid #dc3545;
+  margin-bottom: var(--space-lg);
+}
+
+.form-errors strong {
+  display: block;
+  margin-bottom: var(--space-xs);
+}
+
+.form-errors ul {
+  margin: 0;
+  padding-left: var(--space-md);
+}
+
+.form-errors li {
+  margin-top: var(--space-xs);
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 2px solid var(--color-light);
+}
+
+.form-actions .btn {
+  min-width: 200px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-simple {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .hero-simple h1 {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .menu-item-create-form-container {
+    padding: var(--space-md);
+  }
+
+  /* Stack form row on mobile */
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-simple h1 {
+    font-size: 1.75rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .form-intro p {
+    font-size: 1rem;
+  }
+}

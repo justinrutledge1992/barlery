@@ -24,6 +24,39 @@ document.addEventListener("DOMContentLoaded", () => {
   const csrftoken = getCookie("csrftoken");
 
   /* ---------------------------
+     Copy Registration Link
+  ---------------------------- */
+  const copyLinkBtn = document.getElementById("copy-link-btn");
+  const registrationLinkInput = document.getElementById("registration-link");
+
+  if (copyLinkBtn && registrationLinkInput) {
+    copyLinkBtn.addEventListener("click", async () => {
+      try {
+        // Select the text
+        registrationLinkInput.select();
+        registrationLinkInput.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy to clipboard
+        await navigator.clipboard.writeText(registrationLinkInput.value);
+
+        // Visual feedback
+        const originalHTML = copyLinkBtn.innerHTML;
+        copyLinkBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        copyLinkBtn.classList.add("btn-success");
+
+        // Reset after 2 seconds
+        setTimeout(() => {
+          copyLinkBtn.innerHTML = originalHTML;
+          copyLinkBtn.classList.remove("btn-success");
+        }, 2000);
+      } catch (err) {
+        console.error("Failed to copy:", err);
+        alert("Failed to copy link. Please copy manually.");
+      }
+    });
+  }
+
+  /* ---------------------------
      Activate / Deactivate logic
   ---------------------------- */
   document.addEventListener("click", async (e) => {

@@ -15,6 +15,16 @@
       <a href="{% url 'barlery:calendar' %}">Events</a>
       <a href="{% url 'barlery:venue' %}">Venue Rental</a>
       <a href="{% url 'barlery:contact' %}">Contact Us</a>
+      
+      {% if user.is_authenticated %}
+        {% if user.is_staff %}
+          <a href="{% url 'barlery:account_management' %}">Account Management</a>
+        {% endif %}
+        <a href="#" id="logout-link">Logout</a>
+        <form id="logout-form" method="post" action="{% url 'barlery:logout' %}" style="display: none;">
+          {% csrf_token %}
+        </form>
+      {% endif %}
     </nav>
   </div>
 </header>

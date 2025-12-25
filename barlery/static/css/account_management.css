@@ -6,6 +6,61 @@
   text-align: center;
 }
 
+/* User Creation Link Section */
+.user-creation-header h3 {
+  color: var(--color-primary);
+  margin-bottom: var(--space-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.user-creation-header h3 i {
+  color: var(--color-primary);
+}
+
+.user-creation-header p {
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.link-container {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.link-container input {
+  flex: 1;
+  padding: var(--space-sm);
+  border: 2px solid var(--color-light);
+  border-radius: var(--border-radius);
+  font-family: monospace;
+  font-size: 0.9rem;
+  background-color: var(--color-light);
+  color: var(--color-dark);
+}
+
+.link-container input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background-color: var(--color-white);
+}
+
+.link-note {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.link-note i {
+  color: var(--color-primary);
+}
+
 .hero-simple h1 {
   color: var(--color-text-inverse);
   margin-bottom: var(--space-sm);
@@ -67,6 +122,12 @@
 
 
 /* Pending Activations Section */
+/* Special notification-style background for pending users */
+.section-pending-notification {
+  background-color: #fffbf0;
+  border-top: 3px solid #ffc107;
+  border-bottom: 3px solid #ffc107;
+}
 
 .pending-section-header {
   margin-bottom: var(--space-lg);
@@ -113,18 +174,6 @@
   margin-bottom: var(--space-sm);
   padding-bottom: var(--space-sm);
   border-bottom: 2px solid var(--color-light);
-}
-
-.pending-badge {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  background-color: #fff3cd;
-  color: #856404;
 }
 
 /* Pending User Body */
@@ -279,6 +328,9 @@
 
 /* User Card Header */
 .user-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: var(--space-sm);
   padding-bottom: var(--space-sm);
   border-bottom: 2px solid var(--color-light);
@@ -295,40 +347,6 @@
   display: flex;
   gap: var(--space-xs);
   flex-wrap: wrap;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-xs);
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.badge i {
-  font-size: 0.8rem;
-}
-
-.badge-superuser {
-  background-color: #ffd700;
-  color: #7a5c00;
-}
-
-.badge-staff {
-  background-color: #e8d5a8;
-  color: #6b5435;
-}
-
-.badge-active {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.badge-inactive {
-  background-color: #f8d7da;
-  color: #721c24;
 }
 
 /* User Card Body */
@@ -473,6 +491,19 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  /* Stack copy link button below input on narrow screens */
+  .link-container {
+    flex-direction: column;
+  }
+  
+  .link-container input {
+    width: 100%;
+  }
+  
+  .link-container button {
+    width: 100%;
+  }
+
   .stats-summary {
     grid-template-columns: 1fr;
   }
@@ -491,11 +522,6 @@
 
   .user-card {
     padding: var(--space-sm);
-  }
-
-  .user-card-header {
-    flex-direction: column;
-    align-items: flex-start;
   }
 
   .user-name {
@@ -531,21 +557,61 @@
 
 
 /* --- Normalize vertical spacing between account sections --- */
+/* Reduce overall section spacing and add consistent separators */
+.section.section-light {
+  padding: var(--space-lg) var(--space-md);
+}
+
+/* Section Headers with separators */
+.pending-section-header,
+.user-list-header,
+.user-creation-header,
+.deactivated-users-header {
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-md);
+  border-bottom: 3px solid var(--color-primary);
+}
+
+.pending-section-header h2,
+.user-list-header h2 {
+  color: var(--color-primary);
+  margin-bottom: var(--space-sm);
+}
+
+/* Remove old section spacing rules */
 .pending-section,
 .active-users-section,
 .deactivated-users-section {
-  margin-bottom: var(--space-lg);
+  margin-bottom: 0;
   padding-bottom: 0;
 }
 
-.pending-section {
-  padding-bottom: var(--space-lg);
-  border-bottom: 3px solid var(--color-light);
+/* Deactivated section styling */
+.deactivated-users-section {
+  padding-top: var(--space-md);
 }
 
-.deactivated-users-section {
-  padding-top: var(--space-lg);
-  border-top: 3px solid var(--color-light);
+.deactivated-users-header {
+  border-bottom-color: var(--color-text-light);
+}
+
+.deactivated-users-header h2 {
+  color: var(--color-text-light);
+}
+
+/* User creation link box separator */
+.user-creation-link-box {
+  background-color: var(--color-white);
+  padding: var(--space-lg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  border-left: 4px solid var(--color-primary);
+}
+
+.user-creation-header {
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-md);
+  border-bottom: 2px solid var(--color-light);
 }
 
 /* Collapsible Deactivated Users section */
@@ -553,7 +619,23 @@
   display: none;
 }
 
+/* Reduce spacing between Active Users and toggle button */
+.section-active-users {
+  padding-bottom: var(--space-sm);
+}
+
+/* Toggle button section - centered between Active Users and footer */
+.section-toggle-deactivated {
+  padding-top: var(--space-sm);
+  padding-bottom: var(--space-md);
+}
+
 /* --- User Status Badges --- */
+/* --- Consolidated Badge Styles --- */
+/* All badges use consistent inline-flex with flex-shrink */
+
+.pending-badge,
+.badge,
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -563,26 +645,54 @@
   font-size: 0.85rem;
   font-weight: 600;
   line-height: 1;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
+.pending-badge i,
+.badge i,
 .status-badge i {
   font-size: 0.85rem;
 }
 
-/* Pending */
+/* Specific badge colors */
+.pending-badge {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.badge-superuser {
+  background-color: #ffd700;
+  color: #7a5c00;
+}
+
+.badge-staff {
+  background-color: #e8d5a8;
+  color: #6b5435;
+}
+
+.badge-active {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.badge-inactive {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Status badge variants */
 .status-pending {
   background-color: #fff3cd;
   color: #856404;
 }
 
-/* Active */
 .status-active {
   background-color: #d4edda;
   color: #155724;
 }
 
-/* Deactivated */
 .status-deactivated {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: #e0e0e0;
+  color: #424242;
 }

@@ -26,14 +26,21 @@ Expected context variables:
         {% endif %}
     </div>
     <div class="card-body">
-        <h3 class="card-title">{{ event.title }}</h3>
+        <div class="card-title-row">
+            <h3 class="card-title">{{ event.title }}</h3>
+            {% if user.is_authenticated %}
+            <a href="{% url 'barlery:event_edit' event.id %}" class="btn-edit" title="Edit event">
+                <i class="fas fa-edit"></i>
+            </a>
+            {% endif %}
+        </div>
         <div class="card-footer">
         <span style="color: var(--color-primary); font-weight: 600;">
             {{ event.date|date:"l, F j" }} 
             </br>
             {{ event.start_time|time:"g:i A" }}
         </span>
-        <a href="{{ event.get_absolute_url }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem; color: #F7F3ED">Details</a>
+        <a href="{% url 'barlery:event_details' event.id %}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem; color: #F7F3ED">Details</a>
         </div>
     </div>
 </div>

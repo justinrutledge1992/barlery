@@ -14,7 +14,7 @@ from django.core.mail import send_mail
 from django.utils import timezone
 
 from .forms import ContactForm, EventRequestForm, BarleryUserCreationForm
-from .models import Event, WeeklyHours, EventRequest
+from .models import Event, MenuItem, WeeklyHours, EventRequest
 from .mailers import send_contact_email, send_venue_request_email, send_new_user_email, send_user_activation_email
 
 def index(request):
@@ -319,3 +319,106 @@ def custom_logout(request):
     
     # If GET request, redirect to home
     return redirect('barlery:index')
+def event_details(request, event_id):
+    """
+    Display detailed information about a specific event.
+    """
+    from django.shortcuts import get_object_or_404
+    
+    event = get_object_or_404(Event, id=event_id)
+    
+    return render(request, 'barlery/event_details.html', {
+        'event': event
+    })
+
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url='/accounts/login/')
+def event_create(request):
+    """
+    Create a new event. Requires authentication.
+    """
+    from .forms import EventForm
+    
+    if request.method == 'POST':
+        form = EventForm(request.POST)
+        if form.is_valid():
+            event = form.save()
+            messages.success(request, f"Event '{event.title}' created successfully!")
+            return redirect('barlery:event_details', event_id=event.id)
+    else:
+        form = EventForm()
+    
+    return render(request, 'barlery/event_create.html', {'form': form})
+
+@login_required(login_url='/accounts/login/')
+def event_edit(request, event_id):
+    """
+    Edit an existing event. Requires authentication.
+    """
+    from django.shortcuts import get_object_or_404
+    from .forms import EventForm
+    
+    event = get_object_or_404(Event, id=event_id)
+    
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            event = form.save()
+            messages.success(request, f"Event '{event.title}' updated successfully!")
+            return redirect('barlery:event_details', event_id=event.id)
+    else:
+        form = EventForm(instance=event)
+    
+    return render(request, 'barlery/event_edit.html', {
+        'form': form,
+        'event': event
+    })
+
+@login_required(login_url='/accounts/login/')
+def menu_item_create(request):
+    """
+    Create a new menu item. Requires authentication.
+    """
+    from .forms import MenuItemForm
+    from django.utils import timezone
+    
+    if request.method == 'POST':
+        form = MenuItemForm(request.POST)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.last_updated = timezone.now()
+            item.save()
+            messages.success(request, f"Menu item '{item.name}' created successfully!")
+            return redirect('barlery:menu')
+    else:
+        form = MenuItemForm()
+    
+    return render(request, 'barlery/menu_item_create.html', {'form': form})
+
+@login_required(login_url='/accounts/login/')
+def menu_item_edit(request, item_id):
+    """
+    Edit an existing menu item. Requires authentication.
+    """
+    from django.shortcuts import get_object_or_404
+    from .forms import MenuItemForm
+    from django.utils import timezone
+    
+    item = get_object_or_404(MenuItem, id=item_id)
+    
+    if request.method == 'POST':
+        form = MenuItemForm(request.POST, instance=item)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.last_updated = timezone.now()
+            item.save()
+            messages.success(request, f"Menu item '{item.name}' updated successfully!")
+            return redirect('barlery:menu')
+    else:
+        form = MenuItemForm(instance=item)
+    
+    return render(request, 'barlery/menu_item_edit.html', {
+        'form': form,
+        'item': item
+    })

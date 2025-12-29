@@ -13,7 +13,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.mail import send_mail
 from django.utils import timezone
 
-from .forms import ContactForm, EventRequestForm, BarleryUserCreationForm
+from .forms import ContactForm, EventRequestForm, BarleryUserCreationForm, WeeklyHoursForm
 from .models import Event, MenuItem, WeeklyHours, EventRequest
 from .mailers import send_contact_email, send_venue_request_email, send_new_user_email, send_user_activation_email
 
@@ -539,3 +539,22 @@ def edit_user(request, user_id):
         'edited_user': user,
     }
     return render(request, 'barlery/user_edit.html', context)
+
+@login_required
+def hours_edit(request):
+    """Edit weekly business hours (authenticated users only)."""
+    hours = WeeklyHours.load()  # Get the singleton instance
+    
+    if request.method == 'POST':
+        form = WeeklyHoursForm(request.POST, instance=hours)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Business hours updated successfully!')
+            return redirect('barlery:hours_edit')
+    else:
+        form = WeeklyHoursForm(instance=hours)
+    
+    return render(request, 'barlery/hours_edit.html', {
+        'form': form,
+        'hours': hours
+    })

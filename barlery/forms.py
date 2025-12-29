@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
-from .models import EventRequest, Event, MenuItem
+from .models import EventRequest, Event, MenuItem, WeeklyHours
 
 class ContactForm(forms.Form):
     name = forms.CharField(
@@ -198,3 +198,44 @@ class UserEditForm(forms.ModelForm):
         # Set initial permission level based on is_staff
         if self.instance and self.instance.pk:
             self.fields['permission_level'].initial = 'elevated' if self.instance.is_staff else 'basic'
+
+class WeeklyHoursForm(forms.ModelForm):
+    """Form for editing weekly business hours."""
+    
+    class Meta:
+        model = WeeklyHours
+        exclude = ['id']  # Don't show the ID field (it's always 1)
+        
+        widgets = {
+            'monday_open': forms.TimeInput(attrs={'type': 'time'}),
+            'monday_close': forms.TimeInput(attrs={'type': 'time'}),
+            'tuesday_open': forms.TimeInput(attrs={'type': 'time'}),
+            'tuesday_close': forms.TimeInput(attrs={'type': 'time'}),
+            'wednesday_open': forms.TimeInput(attrs={'type': 'time'}),
+            'wednesday_close': forms.TimeInput(attrs={'type': 'time'}),
+            'thursday_open': forms.TimeInput(attrs={'type': 'time'}),
+            'thursday_close': forms.TimeInput(attrs={'type': 'time'}),
+            'friday_open': forms.TimeInput(attrs={'type': 'time'}),
+            'friday_close': forms.TimeInput(attrs={'type': 'time'}),
+            'saturday_open': forms.TimeInput(attrs={'type': 'time'}),
+            'saturday_close': forms.TimeInput(attrs={'type': 'time'}),
+            'sunday_open': forms.TimeInput(attrs={'type': 'time'}),
+            'sunday_close': forms.TimeInput(attrs={'type': 'time'}),
+        }
+        
+        labels = {
+            'monday_open': 'Monday Opening',
+            'monday_close': 'Monday Closing',
+            'tuesday_open': 'Tuesday Opening',
+            'tuesday_close': 'Tuesday Closing',
+            'wednesday_open': 'Wednesday Opening',
+            'wednesday_close': 'Wednesday Closing',
+            'thursday_open': 'Thursday Opening',
+            'thursday_close': 'Thursday Closing',
+            'friday_open': 'Friday Opening',
+            'friday_close': 'Friday Closing',
+            'saturday_open': 'Saturday Opening',
+            'saturday_close': 'Saturday Closing',
+            'sunday_open': 'Sunday Opening',
+            'sunday_close': 'Sunday Closing',
+        }

@@ -22,6 +22,7 @@ urlpatterns = [
     path("venue", views.venue, name="venue"),
     path("privacy", views.privacy, name="privacy"),
     path("success", views.success, name="success"),
+    path("hours/edit/", views.hours_edit, name="hours_edit"),
 
     # User Creation & Activation:
     path("accounts/create", views.user_create, name="user_create"),

@@ -13,17 +13,14 @@ Expected context variables:
     - get_absolute_url: URL to event detail page (optional)
 {% endcomment %}
 
+{% load static %}
 <div class="card">
     <div class="card-image">
         <a href="{% url 'barlery:event_details' event.id %}">
-            {% if event.image %}
+            {% if event.has_valid_image %}
             <img src="{{ event.image.url }}" alt="{{ event.title }}">
             {% else %}
-            {% with variant_num=event.id|default:1 %}
-            <div class="event-placeholder-image event-placeholder-variant-{{ variant_num }}">
-                <span>{{ event.title }}</span>
-            </div>
-            {% endwith %}
+            <img src="{% static 'images/barlery_sign.png' %}" alt="{{ event.title }}">
             {% endif %}
         </a>
     </div>

@@ -18,8 +18,8 @@ from .models import Event, MenuItem, WeeklyHours, EventRequest
 from .mailers import send_contact_email, send_venue_request_email, send_new_user_email, send_user_activation_email
 
 def index(request):
-    # Get upcoming events
-    upcoming_events = Event.objects.filter(date__gte=timezone.now()).order_by('date')[:3]
+    # Get upcoming events (ordered by date, then time)
+    upcoming_events = Event.objects.filter(date__gte=timezone.now()).order_by('date', 'start_time')[:3]
     
     hours = WeeklyHours.load()
 

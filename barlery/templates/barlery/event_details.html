@@ -20,12 +20,12 @@
       <!-- Left Column: Event Image -->
       <div class="event-image-column">
         <div class="event-image-container">
-          {% if event.image %}
+          {% if event.has_valid_image %}
             <img src="{{ event.image.url }}" 
                  alt="{{ event.title }}" 
                  class="event-image">
           {% else %}
-            <img src="https://via.placeholder.com/800x600/8B6F47/FFFFFF?text={{ event.title|urlencode }}" 
+            <img src="{% static 'images/barlery_sign.png' %}"
                  alt="{{ event.title }}" 
                  class="event-image">
           {% endif %}

@@ -161,6 +161,23 @@ class Event(models.Model):
         if self.end_time and self.end_time <= self.start_time:
             raise ValidationError("End time must be after start time.")
 
+    def has_valid_image(self):
+        """
+        Check if event has a valid image file in storage.
+        
+        Returns:
+            bool: True if image exists in storage, False otherwise
+        """
+        if not self.image:
+            return False
+        
+        try:
+            # Check if the file exists in storage (works for both local and R2)
+            return self.image.storage.exists(self.image.name)
+        except Exception:
+            # If there's any error checking (permissions, network, etc.), assume it doesn't exist
+            return False
+
     def save(self, *args, **kwargs):
         """Override save to delete old image when updating."""
         if self.pk:  # Only for existing objects (updates)

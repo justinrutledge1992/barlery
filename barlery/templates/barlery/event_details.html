@@ -20,9 +20,15 @@
       <!-- Left Column: Event Image -->
       <div class="event-image-column">
         <div class="event-image-container">
-          <img src="https://via.placeholder.com/800x600/8B6F47/FFFFFF?text={{ event.title|urlencode }}" 
-               alt="{{ event.title }}" 
-               class="event-image">
+          {% if event.image %}
+            <img src="{{ event.image.url }}" 
+                 alt="{{ event.title }}" 
+                 class="event-image">
+          {% else %}
+            <img src="https://via.placeholder.com/800x600/8B6F47/FFFFFF?text={{ event.title|urlencode }}" 
+                 alt="{{ event.title }}" 
+                 class="event-image">
+          {% endif %}
         </div>
       </div>
       
@@ -51,17 +57,17 @@
           </div>
         </div>
         
+        <!-- Description in Right Column -->
+        {% if event.description %}
+        <div class="event-description">
+          <h2>About This Event</h2>
+          <p>{{ event.description|linebreaks }}</p>
+        </div>
+        {% endif %}
+        
       </div>
       
     </div>
-    
-    <!-- Full Width Description -->
-    {% if event.description %}
-    <div class="event-description">
-      <h2>About This Event</h2>
-      <p>{{ event.description|linebreaks }}</p>
-    </div>
-    {% endif %}
 
     <!-- Admin Controls -->
     {% if user.is_authenticated %}
@@ -71,7 +77,7 @@
       </a>
       <form method="post" action="{% url 'barlery:event_delete' event.id %}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete {{ event.title|escapejs }}?');">
         {% csrf_token %}
-        <button type="submit" class="btn btn-secondary">
+        <button type="submit" class="btn btn-danger">
           <i class="fas fa-trash"></i> Delete Event
         </button>
       </form>

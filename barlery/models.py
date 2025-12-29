@@ -146,6 +146,12 @@ class Event(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField(null=True, blank=True)
     description = models.TextField(blank=True)
+    image = models.ImageField(
+        upload_to='events/',
+        null=True,
+        blank=True,
+        help_text='Event promotional image'
+    )
     last_updated = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -154,6 +160,29 @@ class Event(models.Model):
     def clean(self):
         if self.end_time and self.end_time <= self.start_time:
             raise ValidationError("End time must be after start time.")
+
+    def save(self, *args, **kwargs):
+        """Override save to delete old image when updating."""
+        if self.pk:  # Only for existing objects (updates)
+            try:
+                old_event = Event.objects.get(pk=self.pk)
+                # If image has changed and there was an old image, delete it
+                if old_event.image and old_event.image != self.image:
+                    if old_event.image.storage.exists(old_event.image.name):
+                        old_event.image.storage.delete(old_event.image.name)
+            except Event.DoesNotExist:
+                pass  # New object, nothing to delete
+        
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        """Override delete to remove image from storage."""
+        # Delete the image file before deleting the database record
+        if self.image:
+            if self.image.storage.exists(self.image.name):
+                self.image.storage.delete(self.image.name)
+        
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return f"{self.title} ({self.date})"

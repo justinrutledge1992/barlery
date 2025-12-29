@@ -15,15 +15,17 @@ Expected context variables:
 
 <div class="card">
     <div class="card-image">
-        {% if event.image %}
-        <img src="{{ event.image.url }}" alt="{{ event.title }}">
-        {% else %}
-        {% with variant_num=event.id|default:1 %}
-        <div class="event-placeholder-image event-placeholder-variant-{{ variant_num }}">
-            <span>{{ event.title }}</span>
-        </div>
-        {% endwith %}
-        {% endif %}
+        <a href="{% url 'barlery:event_details' event.id %}">
+            {% if event.image %}
+            <img src="{{ event.image.url }}" alt="{{ event.title }}">
+            {% else %}
+            {% with variant_num=event.id|default:1 %}
+            <div class="event-placeholder-image event-placeholder-variant-{{ variant_num }}">
+                <span>{{ event.title }}</span>
+            </div>
+            {% endwith %}
+            {% endif %}
+        </a>
     </div>
     <div class="card-body">
         <div class="card-title-row">
@@ -33,25 +35,33 @@ Expected context variables:
                 <a href="{% url 'barlery:event_edit' event.id %}" class="btn-edit" title="Edit event">
                     <i class="fas fa-edit"></i>
                 </a>
-                <form method="post" action="{% url 'barlery:event_delete' event.id %}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete {{ event.title|escapejs }}?');">
+                <form method="post" action="{% url 'barlery:event_delete' event.id %}" onsubmit="return confirm('Are you sure you want to delete {{ event.title|escapejs }}?');">
                     {% csrf_token %}
-                        <button
-                            type="submit"
-                            class="btn-delete-menu-item"
-                            title="Delete item"
-                            style="
-                            background-color: #b00020;
-                            color: white;
-                            border: none;
-                            padding: 0.5rem 0.6rem;
-                            border-radius: 6px;
-                            cursor: pointer;
-                            "
-                            onmouseover="this.style.backgroundColor='#8a0018'"
-                            onmouseout="this.style.backgroundColor='#b00020'"
-                        >
-                            <i class="fas fa-trash"></i>
-                            </button>
+                    <button
+                        type="submit"
+                        class="btn-delete-inline"
+                        title="Delete event"
+                        style="
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 32px;
+                        height: 32px;
+                        background-color: #b00020;
+                        color: white;
+                        border: none;
+                        border-radius: 50%;
+                        padding: 0;
+                        margin: 0;
+                        cursor: pointer;
+                        flex-shrink: 0;
+                        font-size: 0.9rem;
+                        "
+                        onmouseover="this.style.backgroundColor='#8a0018'"
+                        onmouseout="this.style.backgroundColor='#b00020'"
+                    >
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </form>
             </div>
             {% endif %}

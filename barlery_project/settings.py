@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import sys
 import dj_database_url
 from datetime import datetime
+from environs import Env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,6 +29,7 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split("
 # Application definition
 
 INSTALLED_APPS = [
+    'storages',
     'barlery.apps.BarleryConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -172,3 +174,65 @@ LOGIN_REDIRECT_URL = 'barlery:index'
 
 # Points authentication to accounts app User model
 AUTH_USER_MODEL = "barlery.User"
+
+
+
+
+#### Storage Settings (Local in Dev, R2 in Production):
+
+if DEVELOPMENT_MODE:
+    # Development: Use local file storage
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+    
+    # Local media files
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = BASE_DIR / "media"
+    
+else:
+    # Production: Use R2 Storage
+    env = Env()
+    env.read_env()
+    
+    # Pull credentials & bucket from env
+    R2_BUCKET   = env.str("R2_BUCKET_NAME")
+    R2_ENDPOINT = env.str("R2_ENDPOINT_URL").rstrip("/")  # e.g. https://<ACCOUNT_ID>.r2.cloudflarestorage.com
+    
+    # Common OPTIONS for both storage backends
+    R2_OPTIONS = {
+        "access_key": env.str("R2_ACCESS_KEY_ID"),
+        "secret_key": env.str("R2_SECRET_ACCESS_KEY"),
+        "bucket_name": R2_BUCKET,
+        "endpoint_url": R2_ENDPOINT,
+        "region_name": "auto",
+        "signature_version": "s3v4",
+        "addressing_style": "path",     # <endpoint>/<bucket>/<key>
+        "default_acl": "public-read",
+    }
+    
+    # Tell Django 5.1+ about your storages
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+            "OPTIONS": R2_OPTIONS,
+            "LOCATION": "media",     # objects under /media/
+        },
+        "staticfiles": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+            "OPTIONS": R2_OPTIONS,
+            "LOCATION": "static",    # objects under /static/
+        },
+    }
+    
+    # URLs your templates will use
+    STATIC_URL = f"https://{R2_ENDPOINT.replace('https://','')}/{R2_BUCKET}/static/"
+    MEDIA_URL  = f"https://{R2_ENDPOINT.replace('https://','')}/{R2_BUCKET}/media/"
+
+# STATIC_ROOT for collectstatic (used in both dev and prod)
+STATIC_ROOT = BASE_DIR / "staticfiles"

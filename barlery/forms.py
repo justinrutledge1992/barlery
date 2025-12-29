@@ -110,7 +110,7 @@ class EventForm(forms.ModelForm):
     """
     class Meta:
         model = Event
-        fields = ('title', 'date', 'start_time', 'end_time', 'description')
+        fields = ('title', 'date', 'start_time', 'end_time', 'description', 'image')
         
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Event name'}),
@@ -118,6 +118,7 @@ class EventForm(forms.ModelForm):
             'start_time': forms.TimeInput(attrs={'type': 'time'}),
             'end_time': forms.TimeInput(attrs={'type': 'time'}),
             'description': forms.Textarea(attrs={'rows': 6, 'placeholder': 'Tell us about the event...'}),
+            'image': forms.ClearableFileInput(attrs={'accept': 'image/*'}),
         }
         
         labels = {
@@ -126,6 +127,7 @@ class EventForm(forms.ModelForm):
             'start_time': 'Start Time',
             'end_time': 'End Time (Optional)',
             'description': 'Description',
+            'image': 'Event Image',
         }
     
     def clean_date(self):

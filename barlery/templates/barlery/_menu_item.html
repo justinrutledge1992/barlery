@@ -18,21 +18,29 @@ Expected context variables:
       {% if user.is_authenticated %}
         <form method="post" action="{% url 'barlery:menu_item_delete' item.id %}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete {{ item.name|escapejs }}?');">
         {% csrf_token %}
-          <button
-            type="submit"
-            class="btn-delete-menu-item"
-            title="Delete item"
-            style="
-              background-color: #b00020;
-              color: white;
-              border: none;
-              padding: 0.5rem 0.6rem;
-              border-radius: 6px;
-              cursor: pointer;
-            "
-            onmouseover="this.style.backgroundColor='#8a0018'"
-            onmouseout="this.style.backgroundColor='#b00020'"
-          >
+                <button
+                  type="submit"
+                  class="btn-delete-inline"
+                  title="Delete event"
+                  style="
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 32px;
+                    height: 32px;
+                    background-color: #b00020;
+                    color: white;
+                    border: none;
+                    border-radius: 50%;
+                    padding: 0;
+                    margin: 0;
+                    cursor: pointer;
+                    flex-shrink: 0;
+                    font-size: 0.9rem;
+                    "
+                  onmouseover="this.style.backgroundColor='#8a0018'"
+                  onmouseout="this.style.backgroundColor='#b00020'"
+              >
             <i class="fas fa-trash"></i>
           </button>
         </form>

@@ -192,3 +192,46 @@
     font-size: 1rem;
   }
 }
+
+
+/* Very specific selectors to override global .btn styles */
+.event-actions .btn,
+.event-actions a.btn,
+.event-actions button.btn,
+.event-actions a.btn.btn-secondary,
+.event-actions button.btn.btn-secondary,
+.event-actions button.btn.btn-danger {
+  font-size: 1rem !important;
+  padding: var(--space-sm) var(--space-lg) !important;
+  min-height: 44px;
+  max-height: 44px;
+  height: 44px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* Additional resets specifically for button elements */
+.event-actions button.btn {
+  margin: 0;
+  border-width: 2px;
+}
+
+/* Danger button specific colors */
+.event-actions button.btn-danger {
+  background-color: #b00020 !important;
+  border-color: #b00020 !important;
+  color: white !important;
+}
+
+.event-actions button.btn-danger:hover {
+  background-color: #8a0018 !important;
+  border-color: #8a0018 !important;
+}
+
+.event-actions .btn i {
+  margin-right: var(--space-xs);
+}

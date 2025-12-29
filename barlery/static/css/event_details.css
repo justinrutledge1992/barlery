@@ -83,9 +83,9 @@
   font-weight: 500;
 }
 
-/* Event Description - Full Width */
+/* Event Description - Now in Right Column */
 .event-description {
-  margin-bottom: var(--space-xl);
+  margin-top: var(--space-lg);
 }
 
 .event-description h2 {
@@ -106,23 +106,54 @@
   display: flex;
   gap: var(--space-md);
   justify-content: center;
+  align-items: center;
   margin-bottom: var(--space-xl);
   padding-bottom: var(--space-lg);
   border-bottom: 2px solid var(--color-light);
 }
 
 .event-actions form {
-  display: inline;
+  display: inline-flex;
   margin: 0;
+  align-items: center;
 }
 
-.event-actions .btn {
-  font-size: 1rem;
-  padding: var(--space-sm) var(--space-lg);
+/* Very specific selectors to override global .btn styles */
+.event-actions .btn,
+.event-actions a.btn,
+.event-actions button.btn,
+.event-actions a.btn.btn-secondary,
+.event-actions button.btn.btn-secondary,
+.event-actions button.btn.btn-danger {
+  font-size: 1rem !important;
+  padding: var(--space-sm) var(--space-lg) !important;
   min-height: 44px;
-  display: inline-flex;
+  max-height: 44px;
+  height: 44px;
+  display: inline-flex !important;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* Additional resets specifically for button elements */
+.event-actions button.btn {
+  margin: 0;
+  border-width: 2px;
+}
+
+/* Danger button specific colors */
+.event-actions button.btn-danger {
+  background-color: #b00020 !important;
+  border-color: #b00020 !important;
+  color: white !important;
+}
+
+.event-actions button.btn-danger:hover {
+  background-color: #8a0018 !important;
+  border-color: #8a0018 !important;
 }
 
 .event-actions .btn i {
@@ -145,11 +176,11 @@
   margin-right: var(--space-xs);
 }
 
-/* Danger Button */
+/* Danger Button - Matches delete icon colors */
 .btn-danger {
-  background-color: #dc3545;
+  background-color: #b00020;
   color: var(--color-text-inverse);
-  border: 2px solid #dc3545;
+  border: 2px solid #b00020;
   padding: var(--space-sm) var(--space-lg);
   border-radius: var(--border-radius);
   font-family: var(--font-body);
@@ -165,8 +196,8 @@
 }
 
 .btn-danger:hover {
-  background-color: #c82333;
-  border-color: #bd2130;
+  background-color: #8a0018;
+  border-color: #8a0018;
   color: var(--color-text-inverse);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
@@ -193,9 +224,22 @@
     grid-template-columns: 1fr;
     gap: var(--space-lg);
   }
+  
+  /* Ensure proper order on mobile: image first, then details */
+  .event-image-column {
+    order: 1;
+  }
+  
+  .event-details-column {
+    order: 2;
+  }
 
   .event-description p {
     font-size: 1rem;
+  }
+  
+  .event-description {
+    margin-top: var(--space-md);
   }
 }
 

@@ -25,7 +25,7 @@
   <div class="container">
     
     <div class="form-intro">
-      <p>Set your business hours below. Leave fields blank for days when you're closed.</p>
+      <p>Set your regular business hours below.</p>
     </div>
     
     {% if form.errors %}
@@ -47,7 +47,13 @@
         <!-- Monday -->
         <div class="day-hours">
           <h3>Monday</h3>
-          <div class="time-inputs">
+          <div class="closed-checkbox-container">
+            <label class="closed-checkbox">
+              <input type="checkbox" class="day-closed-toggle" data-day="monday">
+              <span>Closed all day</span>
+            </label>
+          </div>
+          <div class="time-inputs" data-day-inputs="monday">
             <div class="form-group">
               <label for="{{ form.monday_open.id_for_label }}">{{ form.monday_open.label }}</label>
               {{ form.monday_open }}
@@ -76,7 +82,13 @@
         <!-- Tuesday -->
         <div class="day-hours">
           <h3>Tuesday</h3>
-          <div class="time-inputs">
+          <div class="closed-checkbox-container">
+            <label class="closed-checkbox">
+              <input type="checkbox" class="day-closed-toggle" data-day="tuesday">
+              <span>Closed all day</span>
+            </label>
+          </div>
+          <div class="time-inputs" data-day-inputs="tuesday">
             <div class="form-group">
               <label for="{{ form.tuesday_open.id_for_label }}">{{ form.tuesday_open.label }}</label>
               {{ form.tuesday_open }}
@@ -105,7 +117,13 @@
         <!-- Wednesday -->
         <div class="day-hours">
           <h3>Wednesday</h3>
-          <div class="time-inputs">
+          <div class="closed-checkbox-container">
+            <label class="closed-checkbox">
+              <input type="checkbox" class="day-closed-toggle" data-day="wednesday">
+              <span>Closed all day</span>
+            </label>
+          </div>
+          <div class="time-inputs" data-day-inputs="wednesday">
             <div class="form-group">
               <label for="{{ form.wednesday_open.id_for_label }}">{{ form.wednesday_open.label }}</label>
               {{ form.wednesday_open }}
@@ -134,7 +152,13 @@
         <!-- Thursday -->
         <div class="day-hours">
           <h3>Thursday</h3>
-          <div class="time-inputs">
+          <div class="closed-checkbox-container">
+            <label class="closed-checkbox">
+              <input type="checkbox" class="day-closed-toggle" data-day="thursday">
+              <span>Closed all day</span>
+            </label>
+          </div>
+          <div class="time-inputs" data-day-inputs="thursday">
             <div class="form-group">
               <label for="{{ form.thursday_open.id_for_label }}">{{ form.thursday_open.label }}</label>
               {{ form.thursday_open }}
@@ -163,7 +187,13 @@
         <!-- Friday -->
         <div class="day-hours">
           <h3>Friday</h3>
-          <div class="time-inputs">
+          <div class="closed-checkbox-container">
+            <label class="closed-checkbox">
+              <input type="checkbox" class="day-closed-toggle" data-day="friday">
+              <span>Closed all day</span>
+            </label>
+          </div>
+          <div class="time-inputs" data-day-inputs="friday">
             <div class="form-group">
               <label for="{{ form.friday_open.id_for_label }}">{{ form.friday_open.label }}</label>
               {{ form.friday_open }}
@@ -192,7 +222,13 @@
         <!-- Saturday -->
         <div class="day-hours">
           <h3>Saturday</h3>
-          <div class="time-inputs">
+          <div class="closed-checkbox-container">
+            <label class="closed-checkbox">
+              <input type="checkbox" class="day-closed-toggle" data-day="saturday">
+              <span>Closed all day</span>
+            </label>
+          </div>
+          <div class="time-inputs" data-day-inputs="saturday">
             <div class="form-group">
               <label for="{{ form.saturday_open.id_for_label }}">{{ form.saturday_open.label }}</label>
               {{ form.saturday_open }}
@@ -221,7 +257,13 @@
         <!-- Sunday -->
         <div class="day-hours">
           <h3>Sunday</h3>
-          <div class="time-inputs">
+          <div class="closed-checkbox-container">
+            <label class="closed-checkbox">
+              <input type="checkbox" class="day-closed-toggle" data-day="sunday">
+              <span>Closed all day</span>
+            </label>
+          </div>
+          <div class="time-inputs" data-day-inputs="sunday">
             <div class="form-group">
               <label for="{{ form.sunday_open.id_for_label }}">{{ form.sunday_open.label }}</label>
               {{ form.sunday_open }}
@@ -252,6 +294,9 @@
           <button type="submit" class="btn btn-primary">
             <i class="fas fa-save"></i> Save Hours
           </button>
+          <a href="{% url 'barlery:index' %}" class="btn btn-secondary">
+            <i class="fas fa-times"></i> Cancel
+          </a>
         </div>
       </form>
 
@@ -259,3 +304,7 @@
 </section>
 
 {% endblock body %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/hours_edit.js' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}" defer></script>
+{% endblock extra_scripts %}

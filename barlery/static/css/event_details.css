@@ -163,7 +163,6 @@
 /* Call to Action */
 .event-cta {
   text-align: center;
-  padding-top: var(--space-xl);
   border-top: 2px solid var(--color-light);
 }
 

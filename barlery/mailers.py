@@ -24,7 +24,7 @@ def send_contact_email(name, email, subject, message):
     Returns:
         bool: True if email sent successfully, False otherwise
     """
-    email_subject = f"[Barlery Contact] {subject}"
+    email_subject = f"[Contact Form] {subject}"
     
     # Format email body with styled headers
     email_body = f"""New Contact Form Submission
@@ -71,9 +71,14 @@ def send_venue_request_email(event_request):
         bool: True if email sent successfully, False otherwise
     """
     from .models import EventRequest
+    from django.utils import timezone
+    
+    # Convert timezone-aware datetimes to local timezone
+    local_tz = timezone.get_current_timezone()
+    date_requested_local = timezone.localtime(event_request.date_requested, local_tz)
     
     # Subject line
-    subject = f"[Barlery Venue Request] {event_request.nature} on {event_request.date.strftime('%B %d, %Y')}"
+    subject = f"[Venue Request] {event_request.nature} on {event_request.date.strftime('%B %d, %Y')}"
     
     # Format contact preference for display
     contact_pref_display = dict(EventRequest.CONTACT_CHOICES).get(
@@ -96,8 +101,8 @@ EVENT DETAILS:
 -------------
 Nature of Event: {event_request.nature}
 Date: {event_request.date.strftime('%A, %B %d, %Y')}
-Start Time: {event_request.start_time.strftime('%I:%M %p')}
-End Time: {event_request.end_time.strftime('%I:%M %p')}
+Start Time: {event_request.start_time.strftime('%I:%M %p')} ET
+End Time: {event_request.end_time.strftime('%I:%M %p')} ET
 
 DESCRIPTION:
 -----------
@@ -105,7 +110,7 @@ DESCRIPTION:
 
 REQUEST SUBMITTED:
 -----------------
-{event_request.date_requested.strftime('%B %d, %Y at %I:%M %p')}
+{date_requested_local.strftime('%B %d, %Y at %I:%M %p')} ET
 
 ---
 This is an automated notification from the Barlery website.
@@ -135,6 +140,12 @@ def send_new_user_email(user):
     Returns:
         bool: True if email sent successfully, False otherwise
     """
+    from django.utils import timezone
+    
+    # Convert timezone-aware datetime to local timezone
+    local_tz = timezone.get_current_timezone()
+    date_joined_local = timezone.localtime(user.date_joined, local_tz)
+    
     subject = f"[Barlery] New User Account Created: {user.first_name} {user.last_name}"
     
     message = f"""New User Account Created
@@ -145,7 +156,7 @@ USER INFORMATION:
 -----------------
 Name: {user.first_name} {user.last_name}
 Email: {user.email}
-Date Requested: {user.date_joined.strftime('%B %d, %Y at %I:%M %p')}
+Date Requested: {date_joined_local.strftime('%B %d, %Y at %I:%M %p')} ET
 
 NEXT STEPS:
 -----------
@@ -182,6 +193,12 @@ def send_user_activation_email(user):
     Returns:
         bool: True if email sent successfully, False otherwise
     """
+    from django.utils import timezone
+    
+    # Convert timezone-aware datetime to local timezone
+    local_tz = timezone.get_current_timezone()
+    date_joined_local = timezone.localtime(user.date_joined, local_tz)
+    
     subject = f"[Barlery] User Account Activated: {user.first_name} {user.last_name}"
     
     message = f"""User Account Activated
@@ -192,7 +209,7 @@ USER INFORMATION:
 -----------------
 Name: {user.first_name} {user.last_name}
 Email: {user.email}
-Account Created: {user.date_joined.strftime('%B %d, %Y at %I:%M %p')}
+Account Created: {date_joined_local.strftime('%B %d, %Y at %I:%M %p')} ET
 Activated: Just now
 
 STATUS:

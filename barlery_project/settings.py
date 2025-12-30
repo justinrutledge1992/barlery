@@ -163,7 +163,7 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic': # this prevents the s
     except:
         raise Exception("Email backend configuration not properly defined.")
 
-CONTACT_RECIPIENT_EMAIL = "info@barlery.com" # Change this an email address checked by Barlery staff
+CONTACT_RECIPIENT_EMAIL = os.getenv("CONTACT_RECIPIENT_EMAIL", "info@barlery.com")
 # Site URL for email links
 SITE_URL = os.getenv('SITE_URL', 'http://localhost:8000')
 

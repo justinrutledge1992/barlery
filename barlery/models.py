@@ -178,8 +178,41 @@ class Event(models.Model):
             # If there's any error checking (permissions, network, etc.), assume it doesn't exist
             return False
 
+    @classmethod
+    def cleanup_old_events(cls):
+        """
+        Delete events that are more than 1 week old.
+        
+        This method is automatically called when a new event is created.
+        Events are considered "old" if their date is more than 7 days in the past.
+        
+        Returns:
+            int: Number of events deleted
+        """
+        from django.utils import timezone
+        from datetime import timedelta
+        
+        # Calculate cutoff date (1 week ago)
+        cutoff_date = timezone.now().date() - timedelta(days=7)
+        
+        # Find and delete old events
+        old_events = cls.objects.filter(date__lt=cutoff_date)
+        count = old_events.count()
+        
+        if count > 0:
+            # Delete each event individually to trigger the delete() method
+            # (which handles image cleanup)
+            for event in old_events:
+                event.delete()
+        
+        return count
+
     def save(self, *args, **kwargs):
-        """Override save to delete old image when updating."""
+        """Override save to delete old image when updating and cleanup old events."""
+        # Check if this is a new event (before saving)
+        is_new_event = self.pk is None
+        
+        # Handle image updates
         if self.pk:  # Only for existing objects (updates)
             try:
                 old_event = Event.objects.get(pk=self.pk)
@@ -190,7 +223,12 @@ class Event(models.Model):
             except Event.DoesNotExist:
                 pass  # New object, nothing to delete
         
+        # Save the event
         super().save(*args, **kwargs)
+        
+        # Cleanup old events after creating a new event
+        if is_new_event:
+            Event.cleanup_old_events()
 
     def delete(self, *args, **kwargs):
         """Override delete to remove image from storage."""

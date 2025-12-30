@@ -36,6 +36,7 @@
 .hours-form-container {
   max-width: 800px;
   margin: 0 auto;
+  width: 100%;
 }
 
 /* Individual Day Cards */
@@ -54,6 +55,46 @@
   font-size: 1.25rem;
   padding-bottom: var(--space-xs);
   border-bottom: 2px solid var(--color-primary);
+}
+
+/* Time Inputs Row */
+.time-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+/* Closed Checkbox Container - separate from grid */
+.closed-checkbox-container {
+  margin-bottom: var(--space-md);
+  padding: var(--space-sm);
+  background-color: rgba(139, 111, 71, 0.05);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(139, 111, 71, 0.2);
+}
+
+/* Closed Checkbox */
+.closed-checkbox {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+  user-select: none;
+}
+
+.closed-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Disabled state for time inputs when closed */
+.time-inputs.disabled .form-group {
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 /* Time Inputs Row */

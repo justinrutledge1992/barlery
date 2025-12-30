@@ -167,7 +167,7 @@ CONTACT_RECIPIENT_EMAIL = "info@barlery.com" # Change this an email address chec
 # Site URL for email links
 SITE_URL = os.getenv('SITE_URL', 'http://localhost:8000')
 
-DEFAULT_FROM_EMAIL = "info@barlery.com"
+DEFAULT_FROM_EMAIL = "Barlery Info <info@barlery.com>"
 
 # Hardcoded redirects after login/logout
 LOGIN_REDIRECT_URL = 'barlery:index'
@@ -234,5 +234,4 @@ else:
     STATIC_URL = f"https://{R2_ENDPOINT.replace('https://','')}/{R2_BUCKET}/static/"
     MEDIA_URL  = f"https://{R2_ENDPOINT.replace('https://','')}/{R2_BUCKET}/media/"
 
-# STATIC_ROOT for collectstatic (used in both dev and prod)
-STATIC_ROOT = BASE_DIR / "staticfiles"
+# End of settings

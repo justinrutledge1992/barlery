@@ -3,238 +3,259 @@
 
 {% block head %}
 <title>Edit Business Hours | Barlery</title>
+<meta name="robots" content="noindex, nofollow">
 {% endblock head %}
 
 {% block extra_css %}
-<style>
-.hours-form {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.day-hours {
-    background: var(--color-white);
-    padding: var(--space-md);
-    margin-bottom: var(--space-md);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-sm);
-    border-left: 4px solid var(--color-primary);
-}
-
-.day-hours h3 {
-    color: var(--color-primary);
-    margin-bottom: var(--space-sm);
-    font-size: 1.25rem;
-}
-
-.time-inputs {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-md);
-}
-
-.form-group {
-    margin-bottom: var(--space-sm);
-}
-
-.form-group label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: var(--space-xs);
-    color: var(--color-dark);
-}
-
-.form-group input[type="time"] {
-    width: 100%;
-    padding: 0.75rem;
-    border: 2px solid rgba(0, 0, 0, 0.1);
-    border-radius: var(--border-radius);
-    font-family: var(--font-body);
-    font-size: 1rem;
-    transition: var(--transition);
-}
-
-.form-group input[type="time"]:focus {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(139, 111, 71, 0.1);
-}
-
-.form-actions {
-    display: flex;
-    gap: var(--space-md);
-    justify-content: center;
-    margin-top: var(--space-xl);
-    padding-top: var(--space-lg);
-    border-top: 2px solid var(--color-light);
-}
-
-.help-text {
-    font-size: 0.9rem;
-    color: var(--color-text-light);
-    font-style: italic;
-    margin-top: var(--space-sm);
-}
-
-@media (max-width: 768px) {
-    .time-inputs {
-        grid-template-columns: 1fr;
-    }
-    
-    .form-actions {
-        flex-direction: column;
-    }
-    
-    .form-actions .btn {
-        width: 100%;
-    }
-}
-</style>
+<link rel="stylesheet" href="{% static 'css/hours_edit.css' %}{% if STATIC_VERSION %}?v={{ STATIC_VERSION }}{% endif %}">
 {% endblock extra_css %}
 
 {% block body %}
-<section class="section section-light">
-    <div class="container">
-        <h1 class="page-title">Edit Business Hours</h1>
-        
-        <div class="hours-form">
-            <p class="help-text" style="text-align: center; margin-bottom: var(--space-lg);">
-                Leave fields blank if closed that day. Times are displayed in 24-hour format.
-            </p>
-            
-            <form method="post">
-                {% csrf_token %}
-                
-                <!-- Monday -->
-                <div class="day-hours">
-                    <h3>Monday</h3>
-                    <div class="time-inputs">
-                        <div class="form-group">
-                            {{ form.monday_open.label_tag }}
-                            {{ form.monday_open }}
-                            {{ form.monday_open.errors }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.monday_close.label_tag }}
-                            {{ form.monday_close }}
-                            {{ form.monday_close.errors }}
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Tuesday -->
-                <div class="day-hours">
-                    <h3>Tuesday</h3>
-                    <div class="time-inputs">
-                        <div class="form-group">
-                            {{ form.tuesday_open.label_tag }}
-                            {{ form.tuesday_open }}
-                            {{ form.tuesday_open.errors }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.tuesday_close.label_tag }}
-                            {{ form.tuesday_close }}
-                            {{ form.tuesday_close.errors }}
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Wednesday -->
-                <div class="day-hours">
-                    <h3>Wednesday</h3>
-                    <div class="time-inputs">
-                        <div class="form-group">
-                            {{ form.wednesday_open.label_tag }}
-                            {{ form.wednesday_open }}
-                            {{ form.wednesday_open.errors }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.wednesday_close.label_tag }}
-                            {{ form.wednesday_close }}
-                            {{ form.wednesday_close.errors }}
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Thursday -->
-                <div class="day-hours">
-                    <h3>Thursday</h3>
-                    <div class="time-inputs">
-                        <div class="form-group">
-                            {{ form.thursday_open.label_tag }}
-                            {{ form.thursday_open }}
-                            {{ form.thursday_open.errors }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.thursday_close.label_tag }}
-                            {{ form.thursday_close }}
-                            {{ form.thursday_close.errors }}
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Friday -->
-                <div class="day-hours">
-                    <h3>Friday</h3>
-                    <div class="time-inputs">
-                        <div class="form-group">
-                            {{ form.friday_open.label_tag }}
-                            {{ form.friday_open }}
-                            {{ form.friday_open.errors }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.friday_close.label_tag }}
-                            {{ form.friday_close }}
-                            {{ form.friday_close.errors }}
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Saturday -->
-                <div class="day-hours">
-                    <h3>Saturday</h3>
-                    <div class="time-inputs">
-                        <div class="form-group">
-                            {{ form.saturday_open.label_tag }}
-                            {{ form.saturday_open }}
-                            {{ form.saturday_open.errors }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.saturday_close.label_tag }}
-                            {{ form.saturday_close }}
-                            {{ form.saturday_close.errors }}
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Sunday -->
-                <div class="day-hours">
-                    <h3>Sunday</h3>
-                    <div class="time-inputs">
-                        <div class="form-group">
-                            {{ form.sunday_open.label_tag }}
-                            {{ form.sunday_open }}
-                            {{ form.sunday_open.errors }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.sunday_close.label_tag }}
-                            {{ form.sunday_close }}
-                            {{ form.sunday_close.errors }}
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Form Actions -->
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Save Hours
-                    </button>
-                    <a href="{% url 'barlery:index' %}" class="btn btn-secondary">
-                        <i class="fas fa-times"></i> Cancel
-                    </a>
-                </div>
-            </form>
-        </div>
-    </div>
+
+<!-- Hero Section -->
+<section class="hero-simple">
+  <div class="container">
+    <h1>Edit Business Hours</h1>
+    <p class="hero-subtitle">Update operating hours for each day of the week</p>
+  </div>
 </section>
+
+<!-- Hours Edit Form Section -->
+<section class="section section-light">
+  <div class="container">
+    
+    <div class="form-intro">
+      <p>Set your business hours below. Leave fields blank for days when you're closed.</p>
+    </div>
+    
+    {% if form.errors %}
+    <div class="form-errors hours-form-container">
+      <strong>Please correct the errors below:</strong>
+      <ul>
+        {% for field, errors in form.errors.items %}
+          {% for error in errors %}
+            <li>{{ field|title }}: {{ error }}</li>
+          {% endfor %}
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+    
+    <form method="post" novalidate class="hours-form-container">
+      {% csrf_token %}
+        
+        <!-- Monday -->
+        <div class="day-hours">
+          <h3>Monday</h3>
+          <div class="time-inputs">
+            <div class="form-group">
+              <label for="{{ form.monday_open.id_for_label }}">{{ form.monday_open.label }}</label>
+              {{ form.monday_open }}
+              {% if form.monday_open.errors %}
+                <ul class="errorlist">
+                  {% for error in form.monday_open.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+            <div class="form-group">
+              <label for="{{ form.monday_close.id_for_label }}">{{ form.monday_close.label }}</label>
+              {{ form.monday_close }}
+              {% if form.monday_close.errors %}
+                <ul class="errorlist">
+                  {% for error in form.monday_close.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        
+        <!-- Tuesday -->
+        <div class="day-hours">
+          <h3>Tuesday</h3>
+          <div class="time-inputs">
+            <div class="form-group">
+              <label for="{{ form.tuesday_open.id_for_label }}">{{ form.tuesday_open.label }}</label>
+              {{ form.tuesday_open }}
+              {% if form.tuesday_open.errors %}
+                <ul class="errorlist">
+                  {% for error in form.tuesday_open.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+            <div class="form-group">
+              <label for="{{ form.tuesday_close.id_for_label }}">{{ form.tuesday_close.label }}</label>
+              {{ form.tuesday_close }}
+              {% if form.tuesday_close.errors %}
+                <ul class="errorlist">
+                  {% for error in form.tuesday_close.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        
+        <!-- Wednesday -->
+        <div class="day-hours">
+          <h3>Wednesday</h3>
+          <div class="time-inputs">
+            <div class="form-group">
+              <label for="{{ form.wednesday_open.id_for_label }}">{{ form.wednesday_open.label }}</label>
+              {{ form.wednesday_open }}
+              {% if form.wednesday_open.errors %}
+                <ul class="errorlist">
+                  {% for error in form.wednesday_open.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+            <div class="form-group">
+              <label for="{{ form.wednesday_close.id_for_label }}">{{ form.wednesday_close.label }}</label>
+              {{ form.wednesday_close }}
+              {% if form.wednesday_close.errors %}
+                <ul class="errorlist">
+                  {% for error in form.wednesday_close.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        
+        <!-- Thursday -->
+        <div class="day-hours">
+          <h3>Thursday</h3>
+          <div class="time-inputs">
+            <div class="form-group">
+              <label for="{{ form.thursday_open.id_for_label }}">{{ form.thursday_open.label }}</label>
+              {{ form.thursday_open }}
+              {% if form.thursday_open.errors %}
+                <ul class="errorlist">
+                  {% for error in form.thursday_open.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+            <div class="form-group">
+              <label for="{{ form.thursday_close.id_for_label }}">{{ form.thursday_close.label }}</label>
+              {{ form.thursday_close }}
+              {% if form.thursday_close.errors %}
+                <ul class="errorlist">
+                  {% for error in form.thursday_close.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        
+        <!-- Friday -->
+        <div class="day-hours">
+          <h3>Friday</h3>
+          <div class="time-inputs">
+            <div class="form-group">
+              <label for="{{ form.friday_open.id_for_label }}">{{ form.friday_open.label }}</label>
+              {{ form.friday_open }}
+              {% if form.friday_open.errors %}
+                <ul class="errorlist">
+                  {% for error in form.friday_open.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+            <div class="form-group">
+              <label for="{{ form.friday_close.id_for_label }}">{{ form.friday_close.label }}</label>
+              {{ form.friday_close }}
+              {% if form.friday_close.errors %}
+                <ul class="errorlist">
+                  {% for error in form.friday_close.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        
+        <!-- Saturday -->
+        <div class="day-hours">
+          <h3>Saturday</h3>
+          <div class="time-inputs">
+            <div class="form-group">
+              <label for="{{ form.saturday_open.id_for_label }}">{{ form.saturday_open.label }}</label>
+              {{ form.saturday_open }}
+              {% if form.saturday_open.errors %}
+                <ul class="errorlist">
+                  {% for error in form.saturday_open.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+            <div class="form-group">
+              <label for="{{ form.saturday_close.id_for_label }}">{{ form.saturday_close.label }}</label>
+              {{ form.saturday_close }}
+              {% if form.saturday_close.errors %}
+                <ul class="errorlist">
+                  {% for error in form.saturday_close.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        
+        <!-- Sunday -->
+        <div class="day-hours">
+          <h3>Sunday</h3>
+          <div class="time-inputs">
+            <div class="form-group">
+              <label for="{{ form.sunday_open.id_for_label }}">{{ form.sunday_open.label }}</label>
+              {{ form.sunday_open }}
+              {% if form.sunday_open.errors %}
+                <ul class="errorlist">
+                  {% for error in form.sunday_open.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+            <div class="form-group">
+              <label for="{{ form.sunday_close.id_for_label }}">{{ form.sunday_close.label }}</label>
+              {{ form.sunday_close }}
+              {% if form.sunday_close.errors %}
+                <ul class="errorlist">
+                  {% for error in form.sunday_close.errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Save Hours
+          </button>
+        </div>
+      </form>
+
+  </div>
+</section>
+
 {% endblock body %}

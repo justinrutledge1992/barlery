@@ -18,13 +18,20 @@ from .models import Event, MenuItem, WeeklyHours, EventRequest
 from .mailers import send_contact_email, send_venue_request_email, send_new_user_email, send_user_activation_email
 
 def index(request):
+    from django.templatetags.static import static
+    
     # Get upcoming events (ordered by date, then time)
     upcoming_events = Event.objects.filter(date__gte=timezone.now()).order_by('date', 'start_time')[:3]
     
     hours = WeeklyHours.load()
+    
+    # Generate static URL for hero background image
+    hero_bg_url = static('images/barlery_sign.png')
 
     return render(request, 'barlery/index.html', {
-        'upcoming_events': upcoming_events, "hours": hours
+        'upcoming_events': upcoming_events,
+        'hours': hours,
+        'hero_bg_url': hero_bg_url,
     })
 
 def about(request):

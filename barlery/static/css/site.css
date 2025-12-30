@@ -158,16 +158,29 @@ header > div {
 }
 
 header > div > a:first-child {
-  font-family: var(--font-heading);
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--color-gold);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  /* Logo link container */
+  display: flex;
+  align-items: center;
+  transition: var(--transition);
 }
 
 header > div > a:first-child:hover {
-  color: var(--color-gold-dark);
+  opacity: 0.85;
+}
+
+/* Logo Image */
+.logo-image {
+  height: 50px;
+  width: auto;
+  display: block;
+  transition: var(--transition);
+}
+
+/* Adjust logo size on mobile */
+@media (max-width: 768px) {
+  .logo-image {
+    height: 40px;
+  }
 }
 
 header nav {
@@ -1082,7 +1095,7 @@ form > div {
     color: var(--color-text-inverse);
     background-size: cover;
     background-position: center;
-    background-image: url("../images/barlery_sign.png");
+    /* background-image set in template using {% static %} tag */
   }
 
   .hero-with-bg::before {

@@ -13,7 +13,7 @@
 {% block body %}
 
 <!-- Hero Section with Background Image -->
-<section class="hero-with-bg section-textured"></section>
+<section class="hero-with-bg section-textured" style="background-image: url('{{ hero_bg_url }}');"></section>
 
 <!-- About Section - Text Left, Image Right -->
 <section class="section">
@@ -36,7 +36,7 @@
         </p>
       </div>
       <div>
-        <img src="{% static 'images/brick_wall_art.png' %}" alt="Barlery interior" class="split-image">
+        <img src="{% static 'images/chess_and_pool.jpg' %}" alt="Barlery interior" class="split-image">
       </div>
     </div>
   </div>
@@ -121,7 +121,13 @@
           Chattanooga, TN 37402
         </p>
         <p style="font-size: 1.1rem; line-height: 1.8; margin-top: var(--space-md);">
-          <strong>Hours:</strong><br>
+          <strong>Hours:</strong>
+          {% if user.is_authenticated %}
+            <a href="{% url 'barlery:hours_edit' %}" class="btn-edit" title="Edit hours" style="margin-left: 0.5rem;">
+              <i class="fas fa-edit"></i>
+            </a>
+          {% endif %}
+          <br>
         </p>
         {% include "barlery/_hours_table.html" %}
       </div>

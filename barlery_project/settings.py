@@ -165,7 +165,7 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic': # this prevents the s
 
 CONTACT_RECIPIENT_EMAIL = os.getenv("CONTACT_RECIPIENT_EMAIL", "info@barlery.com")
 # Site URL for email links
-SITE_URL = os.getenv('SITE_URL', 'http://localhost:8000')
+SITE_URL = os.getenv('SITE_URL', 'https://www.barlery.com')
 
 DEFAULT_FROM_EMAIL = "Barlery Info <info@barlery.com>"
 

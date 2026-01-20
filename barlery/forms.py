@@ -3,6 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from .utils import compress_image
 
 User = get_user_model()
 from .models import EventRequest, Event, MenuItem, WeeklyHours
@@ -107,6 +108,7 @@ class BarleryUserCreationForm(UserCreationForm):
 class EventForm(forms.ModelForm):
     """
     Form for creating and editing events.
+    Automatically compresses uploaded images to improve performance.
     """
     class Meta:
         model = Event
@@ -142,6 +144,31 @@ class EventForm(forms.ModelForm):
             if date < today:
                 raise forms.ValidationError("Event date must be today or a future date.")
         return date
+    
+    def save(self, commit=True):
+        """
+        Save the form and compress the uploaded image if present.
+        """
+        from .utils import compress_image  # Import the compression utility
+        
+        instance = super().save(commit=False)
+        
+        # Compress the image if one was uploaded
+        if 'image' in self.changed_data and instance.image:
+            try:
+                # Compress the image before saving
+                # Uses 1200x1200 max dimensions and 85% quality (good balance)
+                instance.image = compress_image(instance.image)
+            except Exception as e:
+                # If compression fails, log it but still save the original
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.warning(f"Image compression failed: {e}. Saving original image.")
+        
+        if commit:
+            instance.save()
+        
+        return instance
 
 
 class MenuItemForm(forms.ModelForm):

@@ -1,3 +1,6 @@
+import datetime
+import calendar as cal_module  # Import with alias to avoid naming conflict
+from datetime import datetime, timedelta
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
@@ -7,6 +10,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.contrib.auth import get_user_model
+
 
 User = get_user_model()
 from django.contrib.auth.forms import AuthenticationForm
@@ -59,41 +63,108 @@ def menu(request):
     })
 
 def calendar(request):
-    from django.http import JsonResponse
-    from django.template.loader import render_to_string
+    """
+    Display events in a monthly calendar view with navigation.
+    Allows users to navigate between months and see events on specific days.
+    """
+    # Get month and year from query parameters, default to current month
+    try:
+        year = int(request.GET.get('year', timezone.now().year))
+        month = int(request.GET.get('month', timezone.now().month))
+    except (ValueError, TypeError):
+        year = timezone.now().year
+        month = timezone.now().month
     
-    # Get page number from query params (default to 1)
-    page = int(request.GET.get('page', 1))
-    events_per_page = 9  # Show 9 events per page (3 rows of 3)
+    # Ensure month is valid (1-12)
+    if month < 1:
+        month = 12
+        year -= 1
+    elif month > 12:
+        month = 1
+        year += 1
     
-    # Get all upcoming events, ordered by date and time
-    all_events = Event.objects.filter(date__gte=timezone.now()).order_by('date', 'start_time')
+    # Calculate previous and next month for navigation
+    prev_month = month - 1 if month > 1 else 12
+    prev_year = year if month > 1 else year - 1
+    next_month = month + 1 if month < 12 else 1
+    next_year = year if month < 12 else year + 1
     
-    # Calculate pagination
-    start_idx = (page - 1) * events_per_page
-    end_idx = start_idx + events_per_page
+    # Get the calendar for this month using the imported module
+    calendar_grid = cal_module.monthcalendar(year, month)
+    month_name = cal_module.month_name[month]
     
-    events_page = all_events[start_idx:end_idx]
-    has_more = end_idx < all_events.count()
+    # Get all events for this month (only today and future)
+    today = timezone.now().date()
+    first_day = datetime(year, month, 1).date()
+    if month == 12:
+        last_day = datetime(year + 1, 1, 1).date() - timedelta(days=1)
+    else:
+        last_day = datetime(year, month + 1, 1).date() - timedelta(days=1)
     
-    # If it's an AJAX request, return JSON with HTML
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        events_html = render_to_string('barlery/_event_cards_list.html', {
-            'events': events_page
-        })
-        
-        return JsonResponse({
-            'html': events_html,
-            'has_more': has_more,
-            'next_page': page + 1
-        })
+    # Only get events from today onwards
+    start_date = max(first_day, today)
     
-    # Regular page load
-    return render(request, "barlery/calendar.html", {
-        "upcoming_events": events_page,
-        "has_more": has_more,
-        "total_events": all_events.count()
-    })
+    events_this_month = Event.objects.filter(
+        date__gte=start_date,
+        date__lte=last_day
+    ).order_by('date', 'start_time')
+    
+    # Organize events by day
+    events_by_day = {}
+    for event in events_this_month:
+        day = event.date.day
+        if day not in events_by_day:
+            events_by_day[day] = []
+        events_by_day[day].append(event)
+    
+    # Create calendar weeks with event data
+    calendar_weeks = []
+    
+    for week in calendar_grid:
+        week_data = []
+        for day in week:
+            if day == 0:
+                # Empty cell for days from previous/next month
+                week_data.append({
+                    'day': None,
+                    'events': [],
+                    'is_today': False,
+                    'is_past': False,
+                })
+            else:
+                current_date = datetime(year, month, day).date()
+                is_today = current_date == today
+                is_past = current_date < today
+                
+                week_data.append({
+                    'day': day,
+                    'date': current_date,
+                    'events': events_by_day.get(day, []),
+                    'is_today': is_today,
+                    'is_past': is_past,
+                })
+        calendar_weeks.append(week_data)
+    
+    # Get upcoming events (next 15 events from today for progressive loading)
+    upcoming_events = Event.objects.filter(
+        date__gte=today
+    ).order_by('date', 'start_time')[:15]
+    
+    context = {
+        'calendar_weeks': calendar_weeks,
+        'month_name': month_name,
+        'year': year,
+        'month': month,
+        'prev_month': prev_month,
+        'prev_year': prev_year,
+        'next_month': next_month,
+        'next_year': next_year,
+        'today': today,
+        'upcoming_events': upcoming_events,
+        'total_events_this_month': events_this_month.count(),
+    }
+    
+    return render(request, 'barlery/calendar.html', context)
 
 def venue(request):
     if request.method == "POST":

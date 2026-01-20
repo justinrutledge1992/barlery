@@ -18,6 +18,15 @@
   margin: 0;
 }
 
+/* Button Text Visibility Fix */
+.btn-primary {
+  color: #ffffff; /* Ensure text is white */
+}
+
+.btn-primary:hover {
+  color: #ffffff; /* Keep text white on hover */
+}
+
 /* Menu Categories */
 .menu-category {
   margin-bottom: var(--space-2xl);

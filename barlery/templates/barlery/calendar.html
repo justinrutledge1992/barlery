@@ -11,7 +11,7 @@
 {% endblock extra_css %}
 
 {% block extra_scripts %}
-<script src="{% static 'js/calendar_pagination.js' %}" defer></script>
+<script src="{% static 'js/calendar_upcoming_events.js' %}" defer></script>
 {% endblock extra_scripts %}
 
 {% block body %}
@@ -24,61 +24,107 @@
   </div>
 </section>
 
-<!-- Introduction Section -->
+<!-- Calendar Section -->
 <section class="section">
-  <div class="container-narrow text-center">
-    <p style="font-size: 1.2rem; line-height: 1.8;">
-      From live music and performances to trivia nights and special gatherings, 
-      there's always something happening at Barlery. Check out what's coming up 
-      and mark your calendar!
-    </p>
+  <div class="container">
+    
+    <!-- Quick Actions -->
     {% if user.is_authenticated %}
-    <div style="margin-top: var(--space-lg);">
-      <a href="{% url 'barlery:event_create' %}" class="btn btn-primary">
+    <div class="calendar-actions">
+      <a href="{% url 'barlery:event_create' %}" class="btn btn-primary btn-sm">
         <i class="fas fa-plus"></i> Add New Event
       </a>
     </div>
     {% endif %}
+
+    <!-- Calendar Container with Header -->
+    <div class="calendar-container">
+      <!-- Calendar Header with Month Navigation - sits on top of calendar -->
+      <div class="calendar-header">
+        <a href="?year={{ prev_year }}&month={{ prev_month }}" class="calendar-nav-btn calendar-nav-prev" title="Previous Month">
+          <i class="fas fa-chevron-left"></i>
+        </a>
+        <h2 class="calendar-title">{{ month_name }} {{ year }}</h2>
+        <a href="?year={{ next_year }}&month={{ next_month }}" class="calendar-nav-btn calendar-nav-next" title="Next Month">
+          <i class="fas fa-chevron-right"></i>
+        </a>
+      </div>
+
+      <!-- Calendar Grid -->
+      <div class="calendar-grid">
+        <!-- Day Headers -->
+        <div class="calendar-day-header">Sunday</div>
+        <div class="calendar-day-header">Monday</div>
+        <div class="calendar-day-header">Tuesday</div>
+        <div class="calendar-day-header">Wednesday</div>
+        <div class="calendar-day-header">Thursday</div>
+        <div class="calendar-day-header">Friday</div>
+        <div class="calendar-day-header">Saturday</div>
+
+        <!-- Calendar Days -->
+        {% for week in calendar_weeks %}
+          {% for day_data in week %}
+            {% if day_data.day %}
+              <div class="calendar-day {% if day_data.is_today %}today{% endif %} {% if day_data.is_past %}past{% endif %} {% if day_data.events %}has-events{% endif %}">
+                <div class="day-number">{{ day_data.day }}</div>
+                <div class="day-events">
+                  {% for event in day_data.events %}
+                    <a href="{% url 'barlery:event_details' event.id %}" class="event-badge" title="{{ event.title }} at {{ event.start_time|time:'g:i A' }}">
+                      <span class="event-time">{{ event.start_time|time:'g:i A' }}</span>
+                      <span class="event-title">{{ event.title }}</span>
+                    </a>
+                  {% endfor %}
+                </div>
+              </div>
+            {% else %}
+              <div class="calendar-day empty"></div>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- Events Grid Section -->
+<!-- Upcoming Events Sidebar/Section -->
+{% if upcoming_events %}
 <section class="section section-light">
   <div class="container">
-    {% if upcoming_events or total_events > 0 %}
-      <div class="events-grid" id="events-grid">
-        {% for event in upcoming_events %}
-          {% include "barlery/_event_card.html" with event=event %}
-        {% endfor %}
-      </div>
-      
-      {% if has_more %}
-      <div class="load-more-container">
-        <button id="load-more-btn" class="btn btn-accent" data-page="2">
-          Load More Events
-        </button>
-      </div>
-      {% endif %}
-    {% else %}
-      <!-- No events message -->
-      <div class="no-events">
-        <div class="no-events-content">
-          <div class="no-events-icon">📅</div>
-          <h2>No Upcoming Events</h2>
-          <p>We're working on exciting new events! Check back soon or follow us on social media for announcements.</p>
-          <div class="btn-group" style="margin-top: var(--space-lg);">
-            <a href="https://www.instagram.com/barlery.chat/" class="btn btn-primary">
-              <i class="fab fa-instagram"></i> Follow on Instagram
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61583437177852" class="btn btn-primary">
-              <i class="fab fa-facebook"></i> Follow on Facebook
-            </a>
-          </div>
+    <h2 class="section-title">Upcoming Events</h2>
+    <div class="upcoming-events-list" id="upcoming-events-list">
+      {% for event in upcoming_events %}
+      <a href="{% url 'barlery:event_details' event.id %}" class="upcoming-event-item{% if forloop.counter > 3 %} event-hidden{% endif %}" data-event-index="{{ forloop.counter }}">
+        <div class="event-date-badge">
+          <div class="event-month">{{ event.date|date:'M' }}</div>
+          <div class="event-day">{{ event.date|date:'d' }}</div>
         </div>
-      </div>
+        <div class="event-info">
+          <h3>{{ event.title }}</h3>
+          <p class="event-meta">
+            <i class="far fa-clock"></i> {{ event.start_time|time:'g:i A' }}
+            {% if event.end_time %}
+              - {{ event.end_time|time:'g:i A' }}
+            {% endif %}
+          </p>
+          {% if event.description %}
+          <p class="event-description">{{ event.description|truncatechars:100 }}</p>
+          {% endif %}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    
+    {% if upcoming_events|length > 3 %}
+    <div class="load-more-container" style="text-align: center; margin-top: var(--space-lg);">
+      <button id="load-more-events-btn" class="btn btn-accent">
+        Load More Events
+      </button>
+    </div>
     {% endif %}
   </div>
 </section>
+{% endif %}
 
 <!-- CTA Section -->
 <section class="section section-burgundy section-textured">

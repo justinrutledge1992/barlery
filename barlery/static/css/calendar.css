@@ -1,6 +1,6 @@
-/* ========================================
-   CALENDAR PAGE - IMPROVED STYLES
-   ======================================== */
+/* ==========
+CALENDAR PAGE
+============= */
 
 /* Hero Section - Simple (matches other pages) */
 .hero-simple {
@@ -159,10 +159,6 @@
 .calendar-day.past {
   background: #fafafa;
   opacity: 0.7;
-}
-
-.calendar-day.today {
-  /* Removed special styling - today looks like any other day */
 }
 
 .calendar-day.has-events {

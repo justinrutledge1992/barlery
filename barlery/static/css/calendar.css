@@ -1,6 +1,6 @@
-/* ==========
-CALENDAR PAGE
-============= */
+/* ========================================
+   CALENDAR PAGE - IMPROVED STYLES
+   ======================================== */
 
 /* Hero Section - Simple (matches other pages) */
 .hero-simple {
@@ -511,12 +511,14 @@ CALENDAR PAGE
     margin-bottom: 2px;
   }
 
+  /* PRIORITIZE TITLE OVER TIME on small screens */
   .event-time {
-    font-size: 0.52rem;
+    display: none; /* Hide time on very small screens */
   }
 
   .event-title {
-    display: none; /* Hide titles on very small screens to save space */
+    display: block; /* Show title on very small screens */
+    font-size: 0.55rem;
   }
 
   /* Compact upcoming events */

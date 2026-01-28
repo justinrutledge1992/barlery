@@ -37,6 +37,7 @@
     </div>
     {% endif %}
 
+    {% if upcoming_events %}
     <!-- Calendar Container with Header -->
     <div class="calendar-container">
       <!-- Calendar Header with Month Navigation - sits on top of calendar -->
@@ -84,11 +85,26 @@
       </div>
     </div>
 
+    {% else %}
+    <section class="section section-light">
+      <div class="container">
+        <h2 class="section-title">Check back soon!</h2>
+        <p style="text-align: center; font-size: 1.2rem; line-height: 1.8; margin-bottom: var(--space-lg); opacity: 0.95;">In the meantime, follow us on social mediate for events & special announcements:</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/barlery.chat/" aria-label="Instagram" style="color: var(--color-primary); transition: var(--transition);" onmouseover="this.style.color='var(--color-primary-light)'" onmouseout="this.style.color='var(--color-primary)'">
+            <i class="fab fa-instagram"></i> Instagram
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61583437177852" aria-label="Facebook" style="color: var(--color-primary); transition: var(--transition);" onmouseover="this.style.color='var(--color-primary-light)'" onmouseout="this.style.color='var(--color-primary)'">
+            <i class="fab fa-facebook"></i> Facebook
+          </a>
+        </div>
+      </div>
+    </section>
+    {% endif %}
   </div>
 </section>
-
 <!-- Upcoming Events Sidebar/Section -->
-{% if upcoming_events %}
+<!--
 <section class="section section-light">
   <div class="container">
     <h2 class="section-title">Upcoming Events</h2>
@@ -124,7 +140,7 @@
     {% endif %}
   </div>
 </section>
-{% endif %}
+-->
 
 <!-- CTA Section -->
 <section class="section section-burgundy section-textured">
